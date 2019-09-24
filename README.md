@@ -9,6 +9,7 @@ An iOS app for guiding players through their challenge in League of Legends - Te
 - [ ] ​User can select champions and be told the next best champ selections
 - [ ] ​User can search for items and Champions
 - [ ] ​Suggested positioning 
+- [ ] Implement Google Ads
 
 ### Long term goals
 - [ ] Automate updates so we don’t need to update code each time game is changed.
