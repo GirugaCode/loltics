@@ -9,11 +9,14 @@
 /* Begin PBXBuildFile section */
 		2809513C231F133A001BD2DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2809513B231F133A001BD2DF /* AppDelegate.swift */; };
 		2809513E231F133A001BD2DF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2809513D231F133A001BD2DF /* ViewController.swift */; };
-		28095141231F133A001BD2DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2809513F231F133A001BD2DF /* Main.storyboard */; };
 		28095143231F133D001BD2DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28095142231F133D001BD2DF /* Assets.xcassets */; };
 		28095146231F133D001BD2DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28095144231F133D001BD2DF /* LaunchScreen.storyboard */; };
 		28095151231F133D001BD2DF /* loltacticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28095150231F133D001BD2DF /* loltacticsTests.swift */; };
 		2809515C231F133D001BD2DF /* loltacticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2809515B231F133D001BD2DF /* loltacticsUITests.swift */; };
+		289D28DA233AB441006E2C37 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28D9233AB441006E2C37 /* MainTabBarView.swift */; };
+		289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */; };
+		289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DD233AB828006E2C37 /* TeamBuilderView.swift */; };
+		289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DF233AB84D006E2C37 /* DevAboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +40,6 @@
 		28095138231F133A001BD2DF /* loltactics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = loltactics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2809513B231F133A001BD2DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2809513D231F133A001BD2DF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		28095140231F133A001BD2DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28095142231F133D001BD2DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28095145231F133D001BD2DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		28095147231F133D001BD2DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +49,10 @@
 		28095157231F133D001BD2DF /* loltacticsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = loltacticsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2809515B231F133D001BD2DF /* loltacticsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loltacticsUITests.swift; sourceTree = "<group>"; };
 		2809515D231F133D001BD2DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		289D28D9233AB441006E2C37 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
+		289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBuilderView.swift; sourceTree = "<group>"; };
+		289D28DD233AB828006E2C37 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
+		289D28DF233AB84D006E2C37 /* DevAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevAboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,9 +103,11 @@
 		2809513A231F133A001BD2DF /* loltactics */ = {
 			isa = PBXGroup;
 			children = (
+				289D28D8233AB145006E2C37 /* Model */,
+				289D28D6233AB12A006E2C37 /* View */,
+				289D28D7233AB13C006E2C37 /* View Model */,
 				2809513B231F133A001BD2DF /* AppDelegate.swift */,
 				2809513D231F133A001BD2DF /* ViewController.swift */,
-				2809513F231F133A001BD2DF /* Main.storyboard */,
 				28095142231F133D001BD2DF /* Assets.xcassets */,
 				28095144231F133D001BD2DF /* LaunchScreen.storyboard */,
 				28095147231F133D001BD2DF /* Info.plist */,
@@ -123,6 +131,31 @@
 				2809515D231F133D001BD2DF /* Info.plist */,
 			);
 			path = loltacticsUITests;
+			sourceTree = "<group>";
+		};
+		289D28D6233AB12A006E2C37 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				289D28D9233AB441006E2C37 /* MainTabBarView.swift */,
+				289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */,
+				289D28DD233AB828006E2C37 /* TeamBuilderView.swift */,
+				289D28DF233AB84D006E2C37 /* DevAboutView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		289D28D7233AB13C006E2C37 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		289D28D8233AB145006E2C37 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,7 +264,6 @@
 			files = (
 				28095146231F133D001BD2DF /* LaunchScreen.storyboard in Resources */,
 				28095143231F133D001BD2DF /* Assets.xcassets in Resources */,
-				28095141231F133A001BD2DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +289,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
+				289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */,
+				289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */,
+				289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */,
+				289D28DA233AB441006E2C37 /* MainTabBarView.swift in Sources */,
 				2809513C231F133A001BD2DF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,14 +329,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2809513F231F133A001BD2DF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				28095140231F133A001BD2DF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		28095144231F133D001BD2DF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
