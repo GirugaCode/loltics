@@ -9,6 +9,11 @@
 import UIKit
 
 class ItemBuilderView: UIViewController {
+    var items: [Item] = [] {
+        didSet {
+            print(items)
+        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,6 +31,12 @@ class ItemBuilderView: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let networklayer = NetworkLayer()
+        networklayer.getItems { (itemsData) in
+            print(itemsData)
+//            self.items = itemsData
+        }
 
         // Do any additional setup after loading the view.
         view.backgroundColor = .clear
