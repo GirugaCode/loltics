@@ -19,6 +19,12 @@
 		289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DF233AB84D006E2C37 /* DevAboutView.swift */; };
 		289D28E2233AC332006E2C37 /* Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28E1233AC332006E2C37 /* Items.swift */; };
 		289D28E5233AC377006E2C37 /* NetworkLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28E4233AC377006E2C37 /* NetworkLayer.swift */; };
+		289E2085233C356800B648EF /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E2084233C356800B648EF /* NetworkError.swift */; };
+		289E2087233C358900B648EF /* NetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E2086233C358900B648EF /* NetworkResponse.swift */; };
+		289E2089233C35AE00B648EF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E2088233C35AE00B648EF /* Result.swift */; };
+		289E208B233C35EC00B648EF /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208A233C35EC00B648EF /* NetworkRoute.swift */; };
+		289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208C233C36AE00B648EF /* NetworkRequest.swift */; };
+		289E2090233C371400B648EF /* TFTServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208F233C371400B648EF /* TFTServices.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +63,12 @@
 		289D28DF233AB84D006E2C37 /* DevAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevAboutView.swift; sourceTree = "<group>"; };
 		289D28E1233AC332006E2C37 /* Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Items.swift; sourceTree = "<group>"; };
 		289D28E4233AC377006E2C37 /* NetworkLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLayer.swift; sourceTree = "<group>"; };
+		289E2084233C356800B648EF /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		289E2086233C358900B648EF /* NetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkResponse.swift; sourceTree = "<group>"; };
+		289E2088233C35AE00B648EF /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		289E208A233C35EC00B648EF /* NetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoute.swift; sourceTree = "<group>"; };
+		289E208C233C36AE00B648EF /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		289E208F233C371400B648EF /* TFTServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFTServices.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,8 +180,22 @@
 			isa = PBXGroup;
 			children = (
 				289D28E4233AC377006E2C37 /* NetworkLayer.swift */,
+				289E2084233C356800B648EF /* NetworkError.swift */,
+				289E2086233C358900B648EF /* NetworkResponse.swift */,
+				289E208A233C35EC00B648EF /* NetworkRoute.swift */,
+				289E208C233C36AE00B648EF /* NetworkRequest.swift */,
+				289E2088233C35AE00B648EF /* Result.swift */,
+				289E208E233C36F100B648EF /* Services */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		289E208E233C36F100B648EF /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				289E208F233C371400B648EF /* TFTServices.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,14 +328,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				289E2090233C371400B648EF /* TFTServices.swift in Sources */,
+				289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */,
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
+				289E2087233C358900B648EF /* NetworkResponse.swift in Sources */,
 				289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */,
 				289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */,
 				289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */,
 				289D28E5233AC377006E2C37 /* NetworkLayer.swift in Sources */,
 				289D28E2233AC332006E2C37 /* Items.swift in Sources */,
+				289E2085233C356800B648EF /* NetworkError.swift in Sources */,
 				289D28DA233AB441006E2C37 /* MainTabBarView.swift in Sources */,
 				2809513C231F133A001BD2DF /* AppDelegate.swift in Sources */,
+				289E208B233C35EC00B648EF /* NetworkRoute.swift in Sources */,
+				289E2089233C35AE00B648EF /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
