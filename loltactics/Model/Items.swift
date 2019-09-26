@@ -6,7 +6,6 @@
 //  Copyright © 2019 Danh Phu Nguyen. All rights reserved.
 //
 
-//   let item = try? newJSONDecoder().decode(Item.self, from: jsonData)
 
 import Foundation
 
