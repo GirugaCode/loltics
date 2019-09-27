@@ -68,6 +68,13 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
+    // TABLE VIEW
+    // Cell ID
+    private let cellId = "tableCell"
+    
+    // Creating table view
+    var tableView = UITableView()
+    
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +96,9 @@ class TeamBuilderView: UIViewController {
         
         view.backgroundColor = #colorLiteral(red: 0.9607108235, green: 0.9608257413, blue: 0.9606716037, alpha: 1)
         setupLayout()
+        setupTableView()
         makeTabBackground()
+
     }
     
     func setupLayout() {
@@ -160,6 +169,26 @@ class TeamBuilderView: UIViewController {
             ])
         
         view.bringSubviewToFront(mainTabBackground)
+    }
+    
+    func setupTableView() {
+        tableView = UITableView(frame: CGRect(x: 0, y: collectionViewScale + collectionViewScale / 5, width: view.bounds.size.width, height: (view.bounds.size.height - ((collectionViewScale + collectionViewScale / 5) + (view.bounds.size.height/8)))))
+        // Add to Table View to View
+        view.addSubview(tableView)
+
+        
+        // Register Table View Cells
+        tableView.register(ChampionTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // Table View
+        tableView.backgroundColor = .red
+//        view.bringSubviewToFront(tableView)
+        
+
+
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
     }
 }
 
@@ -262,4 +291,33 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
         return 0
     }
     
+}
+
+
+extension TeamBuilderView: UITableViewDataSource {
+    // Table View Rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    // Table View Cells
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Create Cells one by one using this as a blueprint.
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Tapped")
+    }
+}
+
+extension TeamBuilderView: UITableViewDelegate {
+    //     Table View Cell Styling
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("Deselected")
+    }
 }
