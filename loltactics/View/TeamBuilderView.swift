@@ -43,6 +43,22 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
+    var champSelectBackground: UIView = {
+        var view = UIView()
+//        view.layer.borderWidth = 1
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+//        view.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -62,15 +78,27 @@ class TeamBuilderView: UIViewController {
         
         view.backgroundColor = #colorLiteral(red: 0.9607108235, green: 0.9608257413, blue: 0.9606716037, alpha: 1)
         setupLayout()
+        makeTabBackground()
     }
     
     func setupLayout() {
+        
+        // TOP
         setupCollectionView()
         view.addSubview(teamLabel)
         NSLayoutConstraint.activate([
             teamLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             teamLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
+        
+        // SEARCH
+        view.addSubview(champSelectBackground)
+        NSLayoutConstraint.activate([
+            champSelectBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 0),
+            champSelectBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            champSelectBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            champSelectBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
         
     }
     
@@ -81,9 +109,35 @@ class TeamBuilderView: UIViewController {
         collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        collectionView.backgroundColor = .clear // #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         collectionView.contentOffset = .zero
         view.addSubview(collectionView)
+    }
+    
+    fileprivate func makeTabBackground() {
+        let mainTabBackground: UIView = {
+            let view = UIView()
+            view.layer.shadowOpacity = 1
+            view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+            view.layer.shadowRadius = 4
+            view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+            view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        
+        // TAB BACKGROUND
+        view.addSubview(mainTabBackground)
+        NSLayoutConstraint.activate([
+            mainTabBackground.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.125),
+            mainTabBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            mainTabBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            mainTabBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            mainTabBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+            ])
+        
+        view.bringSubviewToFront(mainTabBackground)
     }
 }
 
@@ -111,7 +165,8 @@ extension TeamBuilderView: UICollectionViewDataSource {
         if indexPath.row == 0 && madeFirstLine == 1 {
             print("working")
             madeFirstLine += 1
-            cell.champBorder.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+            cell.champBorder.backgroundColor = .clear
+            cell.champBorder.layer.borderWidth = 0
         }
         else if indexPath.row == 4 && madeFirstLine == 0 {
             madeFirstLine += 1
