@@ -28,7 +28,11 @@ class TeamBuilderView: UIViewController {
     /// FULL TEAM COMP COLLECTION VIEW
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
+    
+    // Couting cells for Flow layout
     var cellsMade = 0
+    
+    // Counting Cells for Cell rendering
     var madeFirstLine = 0
     
     /// COLLECTION VIEW BACKGROUND
@@ -71,28 +75,15 @@ class TeamBuilderView: UIViewController {
     }
     
     func setupCollectionView() {
-        // MARK: Saved for later
-//        view.addSubview(collectionViewBackground)
-//        NSLayoutConstraint.activate([
-//            collectionViewBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 10),
-//            collectionViewBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-//            collectionViewBackground.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-//            collectionViewBackground.heightAnchor.constraint(equalToConstant: 200)
-//        ])
-        
         // Collection View Setup
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.width / 2), collectionViewLayout: flowLayout)
-//        flowLayout.scrollDirection = .horizontal
-//        collectionView.isScrollEnabled = false
+        collectionView.isScrollEnabled = false
         collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         collectionView.contentOffset = .zero
         view.addSubview(collectionView)
-//        NSLayoutConstraint.activate([
-//            collectionViewBackground.topAnchor.constraint(equalTo: teamLabel.bottomAnchor, constant: 10)
-//        ])
     }
 }
 
@@ -112,12 +103,6 @@ extension TeamBuilderView: UICollectionViewDataSource {
             return 4
         
         }
-//        if section == 0 {
-//            return 9
-//        }
-//        else {
-//            return 2
-//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -128,7 +113,6 @@ extension TeamBuilderView: UICollectionViewDataSource {
             madeFirstLine += 1
             cell.champBorder.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         }
-        
         else if indexPath.row == 4 && madeFirstLine == 0 {
             madeFirstLine += 1
         }
@@ -143,9 +127,6 @@ extension TeamBuilderView: UICollectionViewDataSource {
 
 extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        if indexPath.row == 0 {
-//            return CGSize(width: view.bounds.size.width, height: view.bounds.size.width / 5)
-////        }
         if  cellsMade == 5 {
             print("diffenretn")
             cellsMade = 6
@@ -157,7 +138,6 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
             return CGSize(width: view.bounds.size.width / 4, height: view.bounds.size.width / 10)
         }
         cellsMade += 1
-//        return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 4)
         return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 5)
     }
     
