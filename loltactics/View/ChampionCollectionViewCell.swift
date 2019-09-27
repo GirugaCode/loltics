@@ -10,7 +10,7 @@ import UIKit
 
 class ChampionCollectionViewCell: UICollectionViewCell {
     
-    private var champBorder: UIView = {
+    var champBorder: UIView = {
         var view = UIView()
         view.layer.borderWidth = 2
 //        view.layer.shadowOpacity = 0.7

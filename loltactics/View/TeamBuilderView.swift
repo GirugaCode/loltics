@@ -28,6 +28,8 @@ class TeamBuilderView: UIViewController {
     /// FULL TEAM COMP COLLECTION VIEW
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
+    var cellsMade = 0
+    var madeFirstLine = false
     
     /// COLLECTION VIEW BACKGROUND
     var collectionViewBackground: UIView = {
@@ -80,6 +82,8 @@ class TeamBuilderView: UIViewController {
         
         // Collection View Setup
         collectionView = UICollectionView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.width / 2.5), collectionViewLayout: flowLayout)
+//        flowLayout.scrollDirection = .horizontal
+//        collectionView.isScrollEnabled = false
         collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -94,12 +98,39 @@ class TeamBuilderView: UIViewController {
 
 extension TeamBuilderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        if section == 0 {
+            print("first")
+            return 5
+        } else if section == 1 {
+            print("second")
+
+            return 5
+        }
+        else {
+            print("third")
+
+            return 0
+        
+        }
+//        if section == 0 {
+//            return 9
+//        }
+//        else {
+//            return 2
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
+        if indexPath.row == 0 && madeFirstLine == true {
+            print("working")
+            cell.champBorder.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        }
+        
+        else if indexPath.row == 4 && madeFirstLine == false {
+            madeFirstLine = true
+        }
        return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -111,27 +142,47 @@ extension TeamBuilderView: UICollectionViewDataSource {
 
 extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        if indexPath.row == 0 {
+//            return CGSize(width: view.bounds.size.width, height: view.bounds.size.width / 5)
+////        }
+        if  cellsMade == 5 {
+            print("diffenretn")
+            cellsMade = 6
+            return CGSize(width: view.bounds.size.width / 10, height: view.bounds.size.width / 5)
+        }
+        cellsMade += 1
+//        return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 4)
         return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 5)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
+        print("called")
+        if section == 0 {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
+        }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
     }
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         // Vertical Spacing
+        if section == 0 {
+            return 0
+        }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         // Middle spacing
-        return 20.0
+        if section == 0 {
+            return 0
+        }
+        return 0
     }
     
 }
