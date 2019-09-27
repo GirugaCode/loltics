@@ -29,7 +29,7 @@ class TeamBuilderView: UIViewController {
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
     var cellsMade = 0
-    var madeFirstLine = false
+    var madeFirstLine = 0
     
     /// COLLECTION VIEW BACKGROUND
     var collectionViewBackground: UIView = {
@@ -81,7 +81,7 @@ class TeamBuilderView: UIViewController {
 //        ])
         
         // Collection View Setup
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.width / 2.5), collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.width / 2), collectionViewLayout: flowLayout)
 //        flowLayout.scrollDirection = .horizontal
 //        collectionView.isScrollEnabled = false
         collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
@@ -109,7 +109,7 @@ extension TeamBuilderView: UICollectionViewDataSource {
         else {
             print("third")
 
-            return 0
+            return 4
         
         }
 //        if section == 0 {
@@ -123,13 +123,14 @@ extension TeamBuilderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
-        if indexPath.row == 0 && madeFirstLine == true {
+        if indexPath.row == 0 && madeFirstLine == 1 {
             print("working")
+            madeFirstLine += 1
             cell.champBorder.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         }
         
-        else if indexPath.row == 4 && madeFirstLine == false {
-            madeFirstLine = true
+        else if indexPath.row == 4 && madeFirstLine == 0 {
+            madeFirstLine += 1
         }
        return cell
     }
@@ -150,6 +151,11 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
             cellsMade = 6
             return CGSize(width: view.bounds.size.width / 10, height: view.bounds.size.width / 5)
         }
+
+        if cellsMade >= 10 {
+            print("last cell")
+            return CGSize(width: view.bounds.size.width / 4, height: view.bounds.size.width / 10)
+        }
         cellsMade += 1
 //        return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 4)
         return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 5)
@@ -158,7 +164,11 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         print("called")
         if section == 0 {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: view.bounds.size.width / -20, right: 0)
+            
+        }
+        if section == 2 {
+            return UIEdgeInsets(top: view.bounds.size.width / 40, left: 0, bottom: 0, right: 0)
 
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -166,7 +176,7 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
