@@ -34,23 +34,34 @@ class TeamBuilderView: UIViewController {
     
     // Counting Cells for Cell rendering
     var madeFirstLine = 0
+    var madeSecondLine = 0
+    
+    var numberOfCells = 0
+    
+    // Scaling whole collection view
+    var collectionViewScale = UIScreen.main.bounds.width * 0.8
     
     /// COLLECTION VIEW BACKGROUND
-    var collectionViewBackground: UIView = {
-        var view = UIView()
-        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     var champSelectBackground: UIView = {
         var view = UIView()
-//        view.layer.borderWidth = 1
         view.layer.shadowOpacity = 1
         view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
         view.layer.shadowRadius = 4
         view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
-//        view.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var searchBackground: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -91,20 +102,31 @@ class TeamBuilderView: UIViewController {
             teamLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
         
-        // SEARCH
+    // SEARCH
+        
+        // Background
         view.addSubview(champSelectBackground)
         NSLayoutConstraint.activate([
-            champSelectBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 0),
+            champSelectBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -30),
             champSelectBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             champSelectBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             champSelectBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+        
+        // Search tab background
+        view.addSubview(searchBackground)
+        NSLayoutConstraint.activate([
+            searchBackground.topAnchor.constraint(equalTo: champSelectBackground.topAnchor, constant: 25),
+            searchBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            searchBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            searchBackground.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.14)
             ])
         
     }
     
     func setupCollectionView() {
         // Collection View Setup
-        collectionView = UICollectionView(frame: CGRect(x: 0, y: 120, width: view.bounds.width, height: view.bounds.width / 2), collectionViewLayout: flowLayout)
+        collectionView = UICollectionView(frame: CGRect(x: (view.bounds.size.width - collectionViewScale) / 2, y: 120, width: collectionViewScale, height: view.bounds.width / 2), collectionViewLayout: flowLayout)
         collectionView.isScrollEnabled = false
         collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collectionView.delegate = self
@@ -162,15 +184,25 @@ extension TeamBuilderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
-        if indexPath.row == 0 && madeFirstLine == 1 {
+        print(numberOfCells)
+        if numberOfCells >= 10 {
+            print("second line working")
+            madeFirstLine += 1
+            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+            cell.champBorder.layer.borderWidth = 0
+        }
+        
+        else if numberOfCells == 5 {
             print("working")
             madeFirstLine += 1
+            madeSecondLine += 1
             cell.champBorder.backgroundColor = .clear
             cell.champBorder.layer.borderWidth = 0
         }
-        else if indexPath.row == 4 && madeFirstLine == 0 {
-            madeFirstLine += 1
-        }
+//        else if numberOfCells == 4 {
+//            madeFirstLine += 1
+//        }
+        numberOfCells += 1
        return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -185,25 +217,25 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
         if  cellsMade == 5 {
             print("diffenretn")
             cellsMade = 6
-            return CGSize(width: view.bounds.size.width / 10, height: view.bounds.size.width / 5)
+            return CGSize(width: collectionViewScale / 10, height: collectionViewScale / 5)
         }
 
         if cellsMade >= 10 {
             print("last cell")
-            return CGSize(width: view.bounds.size.width / 4, height: view.bounds.size.width / 10)
+            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
         }
         cellsMade += 1
-        return CGSize(width: view.bounds.size.width / 5, height: view.bounds.size.width / 5)
+        return CGSize(width: collectionViewScale / 5, height: collectionViewScale / 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         print("called")
         if section == 0 {
-            return UIEdgeInsets(top: 0, left: 0, bottom: view.bounds.size.width / -20, right: 0)
+            return UIEdgeInsets(top: 0, left: 0, bottom: collectionViewScale / -20, right: 0)
             
         }
         if section == 2 {
-            return UIEdgeInsets(top: view.bounds.size.width / 40, left: 0, bottom: 0, right: 0)
+            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
 
         }
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
