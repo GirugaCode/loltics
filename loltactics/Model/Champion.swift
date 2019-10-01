@@ -73,4 +73,6 @@ typealias newChampion = [String: ChampionData]
 struct Champion: Decodable {
     var name: String
     var data: ChampionData
+    var image: String
+    
 }

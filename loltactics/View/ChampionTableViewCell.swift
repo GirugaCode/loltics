@@ -20,20 +20,28 @@ class ChampionTableViewCell: UITableViewCell {
         return view
     }()
     
-//    /// TOP LABEL
-//    var champName: UITextView = {
-//        var title = UITextView()
-//        title.text = "Team"
-//        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 28) // Size to make it scalable (supposed to be around 33 onn iphone x)
-//        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
-//        title.backgroundColor = nil
-//        title.textAlignment = .left
-//        title.isEditable = false
-//        title.isScrollEnabled = false
-//        title.isSelectable = false
-//        title.translatesAutoresizingMaskIntoConstraints = false
-//        return title
-//    }()
+    /// TOP LABEL
+    var champName: UITextView = {
+        var title = UITextView()
+        title.text = "Team"
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 28) // Size to make it scalable (supposed to be around 33 onn iphone x)
+        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .left
+        title.isEditable = false
+        title.isScrollEnabled = false
+        title.isSelectable = false
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
+    
+    // Continue Button image
+    var champImage: UIImageView = {
+        var newImage = UIImageView()
+        newImage.image = #imageLiteral(resourceName: "Aatrox-Icon")
+        newImage.translatesAutoresizingMaskIntoConstraints = false
+        return newImage
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,14 +55,28 @@ class ChampionTableViewCell: UITableViewCell {
     }
     func setupCellLayout() {
         self.addSubview(champBorder)
+        self.addSubview(champName)
+        self.addSubview(champImage)
         NSLayoutConstraint.activate([
             champBorder.topAnchor.constraint(equalTo: self.topAnchor),
             champBorder.leftAnchor.constraint(equalTo: self.leftAnchor),
             champBorder.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             champBorder.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-//            
-//            champName.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-//            champName.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            
+            
+            ])
+        
+         NSLayoutConstraint.activate([
+            champName.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            champName.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
+        NSLayoutConstraint.activate([
+            champImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            champImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            champImage.heightAnchor.constraint(equalToConstant: 50),
+            champImage.widthAnchor.constraint(equalToConstant: 50)
+//
+//            champImage
             ])
     }
 }
