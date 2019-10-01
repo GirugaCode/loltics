@@ -10,6 +10,128 @@ import UIKit
 
 class TeamBuilderView: UIViewController {
     
+    /// TOP LABEL
+    var teamLabel: UITextView = {
+        var title = UITextView()
+        title.text = "Team"
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 28) // Size to make it scalable (supposed to be around 33 onn iphone x)
+        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .left
+        title.isEditable = false
+        title.isScrollEnabled = false
+        title.isSelectable = false
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
+    
+    /// FULL TEAM COMP COLLECTION VIEW
+    var collectionView: UICollectionView!
+    var flowLayout = UICollectionViewFlowLayout()
+    
+    // Couting cells for Flow layout
+    var cellsMade = 0
+    
+    // Counting Cells for Cell rendering
+    var madeFirstLine = 0
+    var madeSecondLine = 0
+    
+    var numberOfCells = 0
+    
+    // Scaling whole collection view
+    var collectionViewScale = UIScreen.main.bounds.width * 0.8
+    
+    /// COLLECTION VIEW BACKGROUND
+    var champSelectBackground: UIView = {
+        var view = UIView()
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var searchBackground: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    // TABLE VIEW
+    // Cell ID
+    private let cellId = "tableCell"
+    
+    // Creating table view
+    var tableView = UITableView()
+    
+    // ALL CHAMPS
+    var allChampsArray: Dictionary<String, ChampionData> = [:]
+//        didSet {
+//            
+    //print("All champs array count", allChampsArray.count)
+//    DispatchQueue.main.async {
+//    self.tableView.reloadData()
+//    }
+//        }
+
+    // CHAMP SELECTS
+    var selectionsBackground: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var selectionsStack = UIStackView()
+    
+    var first: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var second: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    var third: UIView = {
+        var view = UIView()
+        view.layer.borderWidth = 1
+        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -23,11 +145,285 @@ class TeamBuilderView: UIViewController {
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = #colorLiteral(red: 0.9607108235, green: 0.9608257413, blue: 0.9606716037, alpha: 1)
+        setupLayout()
+        setupTableView()
+        setupChampSelections()
+        
+        makeTabBackground()
+        
+        downloadAllChamps()
 
-        view.backgroundColor = .blue
     }
+    
+    func setupLayout() {
+        
+        // TOP
+        setupCollectionView()
+        view.addSubview(teamLabel)
+        NSLayoutConstraint.activate([
+            teamLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            teamLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+        ])
+        
+    // SEARCH
+        
+        // Background
+        view.addSubview(champSelectBackground)
+        NSLayoutConstraint.activate([
+            champSelectBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -30),
+            champSelectBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            champSelectBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            champSelectBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+        
+        // Search tab background
+        view.addSubview(searchBackground)
+        NSLayoutConstraint.activate([
+            searchBackground.topAnchor.constraint(equalTo: champSelectBackground.topAnchor, constant: 25),
+            searchBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            searchBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            searchBackground.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.14)
+            ])
+        
+    }
+    
+    func setupCollectionView() {
+        // Collection View Setup
+        collectionView = UICollectionView(frame: CGRect(x: (view.bounds.size.width - collectionViewScale) / 2, y: 120, width: collectionViewScale, height: view.bounds.width / 2), collectionViewLayout: flowLayout)
+        collectionView.isScrollEnabled = false
+        collectionView.register(ChampionCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .clear // #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        collectionView.contentOffset = .zero
+        view.addSubview(collectionView)
+    }
+    
+    fileprivate func makeTabBackground() {
+        let mainTabBackground: UIView = {
+            let view = UIView()
+            view.layer.shadowOpacity = 1
+            view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+            view.layer.shadowRadius = 4
+            view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+            view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+            view.translatesAutoresizingMaskIntoConstraints = false
+            return view
+        }()
+        
+        // TAB BACKGROUND
+        view.addSubview(mainTabBackground)
+        NSLayoutConstraint.activate([
+            mainTabBackground.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.125),
+            mainTabBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            mainTabBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            mainTabBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0),
+            mainTabBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+            ])
+        
+        view.bringSubviewToFront(mainTabBackground)
+    }
+    
+    func setupTableView() {
+        tableView = UITableView(frame: CGRect(x: 15, y: collectionViewScale + collectionViewScale / 5, width: view.bounds.size.width - 30, height: (view.bounds.size.height - ((collectionViewScale + collectionViewScale / 5) + (view.bounds.size.height/8)))))
+        // Add to Table View to View
+        view.addSubview(tableView)
 
+        
+        // Register Table View Cells
+        tableView.register(ChampionTableViewCell.self, forCellReuseIdentifier: cellId)
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        // Table View
+        tableView.backgroundColor = .clear
+//        view.bringSubviewToFront(tableView)
+        
+
+
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+    }
+    
+    func setupChampSelections() {
+        // SELECTIONS
+        view.addSubview(selectionsBackground)
+        NSLayoutConstraint.activate([
+            selectionsBackground.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.06),
+            selectionsBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.bounds.size.width/3.5),
+            selectionsBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: (view.bounds.size.width/3.5) * -1),
+            selectionsBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: (view.bounds.size.height/7) * -1),
+            selectionsBackground.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+            ])
+        view.bringSubviewToFront(selectionsBackground)
+        
+        selectionsStack = UIStackView(arrangedSubviews: [first,second,third])
+        selectionsStack.axis = .horizontal
+        
+//        view.addSubview(selectionsStack)
+//        NSLayoutConstraint.activate([
+//            selectionsStack.topAnchor.constraint(equalTo: selectionsBackground.topAnchor),
+//            selectionsStack.leadingAnchor.constraint(equalTo: selectionsBackground.leadingAnchor),
+//            selectionsStack.trailingAnchor.constraint(equalTo: selectionsBackground.trailingAnchor),
+//            selectionsStack.bottomAnchor.constraint(equalTo: selectionsBackground.bottomAnchor),
+//            selectionsStack.centerXAnchor.constraint(equalTo: selectionsBackground.centerXAnchor)
+//            ])
+    }
+    
+    /// GET REQUEST to https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json for champs JSON
+    func downloadAllChamps() {
+        let url = URL(string: "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")!
+        
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            
+            print(String(data: data, encoding: .utf8)!)
+            do {
+                let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
+                print(myStruct)
+                DispatchQueue.main.async {
+                    self.allChampsArray = myStruct
+                    print("All champs array count", self.allChampsArray.count)
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print("Didn't work")
+                return
+            }
+            
+        }
+        
+        task.resume()
+    }
+}
+
+extension TeamBuilderView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            print("first")
+            return 5
+        } else if section == 1 {
+            print("second")
+            return 5
+        }
+        else {
+            print("third")
+            return 4
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
+        print(numberOfCells)
+        if numberOfCells >= 10 {
+            print("second line working")
+            madeFirstLine += 1
+            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+            cell.champBorder.layer.borderWidth = 0
+        }
+        
+        else if numberOfCells == 5 {
+            print("working")
+            madeFirstLine += 1
+            madeSecondLine += 1
+            cell.champBorder.backgroundColor = .clear
+            cell.champBorder.layer.borderWidth = 0
+        }
+
+        numberOfCells += 1
+       return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Cell Pressed")
+    }
+}
+
+
+
+extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if  cellsMade == 5 {
+            print("diffenretn")
+            cellsMade = 6
+            return CGSize(width: collectionViewScale / 10, height: collectionViewScale / 5)
+        }
+
+        if cellsMade >= 10 {
+            print("last cell")
+            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
+        }
+        cellsMade += 1
+        return CGSize(width: collectionViewScale / 5, height: collectionViewScale / 5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        print("called")
+        if section == 0 {
+            return UIEdgeInsets(top: 0, left: 0, bottom: collectionViewScale / -20, right: 0)
+            
+        }
+        if section == 2 {
+            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
+
+        }
+        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        // Vertical Spacing
+        if section == 0 {
+            return 0
+        }
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        // Middle spacing
+        if section == 0 {
+            return 0
+        }
+        return 0
+    }
+    
+}
+
+
+extension TeamBuilderView: UITableViewDataSource {
+    // Table View Rows
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return allChampsArray.count
+    }
+    
+    // Table View Cells
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Create Cells one by one using this as a blueprint.
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
+//        cell.champName.text = allChampsArray[indexPath.row].name
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("Tapped")
+    }
+}
+
+extension TeamBuilderView: UITableViewDelegate {
+    //     Table View Cell Styling
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("Deselected")
+    }
 }

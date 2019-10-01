@@ -18,6 +18,7 @@ class MainTabBarView: UITabBarController {
         view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         view.layer.borderColor = #colorLiteral(red: 0.2196078449, green: 0.007843137719, blue: 0.8549019694, alpha: 1)
         view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.opacity = 0
         view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -28,17 +29,15 @@ class MainTabBarView: UITabBarController {
     let teamBuilderView = TeamBuilderView()
     let devAboutView = DevAboutView()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        setupConstraints()
         setupTabBarViews()
-        
-        
     }
     
     
     fileprivate func setupTabBarViews() {
-        
         itemBuilderView.tabBarItem.image = #imageLiteral(resourceName: "Item-Icon")
         itemBuilderView.tabBarItem.selectedImage = #imageLiteral(resourceName: "Item-Icon-Active")
         
@@ -49,6 +48,9 @@ class MainTabBarView: UITabBarController {
         devAboutView.tabBarItem.selectedImage = #imageLiteral(resourceName: "About-icon-Active")
         
         tabBar.tintColor = #colorLiteral(red: 0.4509803922, green: 0.4352941176, blue: 0.8941176471, alpha: 1)
+        tabBar.backgroundColor = .clear
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
         viewControllers = [itemBuilderView, teamBuilderView, devAboutView]
     }
     

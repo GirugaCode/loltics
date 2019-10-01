@@ -28,7 +28,13 @@ class ItemBuilderView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadItems()
+        
+//        let networklayer = NetworkLayer()
+//        networklayer.getItems { (itemsData) in
+//            print(itemsData)
+////            self.items = itemsData
+//        }
+
         // Do any additional setup after loading the view.
         view.backgroundColor = .clear
     }
