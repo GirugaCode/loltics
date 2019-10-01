@@ -75,6 +75,15 @@ class TeamBuilderView: UIViewController {
     // Creating table view
     var tableView = UITableView()
     
+    // ALL CHAMPS
+    var allChampsArray: Dictionary<String, ChampionData> = [:]
+//        didSet {
+//            
+    //print("All champs array count", allChampsArray.count)
+//    DispatchQueue.main.async {
+//    self.tableView.reloadData()
+//    }
+//        }
 
     // CHAMP SELECTS
     var selectionsBackground: UIView = {
@@ -146,6 +155,8 @@ class TeamBuilderView: UIViewController {
         setupChampSelections()
         
         makeTabBackground()
+        
+        downloadAllChamps()
 
     }
     
@@ -263,6 +274,32 @@ class TeamBuilderView: UIViewController {
 //            selectionsStack.centerXAnchor.constraint(equalTo: selectionsBackground.centerXAnchor)
 //            ])
     }
+    
+    /// GET REQUEST to https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json for champs JSON
+    func downloadAllChamps() {
+        let url = URL(string: "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")!
+        
+        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+            guard let data = data else { return }
+            
+            print(String(data: data, encoding: .utf8)!)
+            do {
+                let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
+                print(myStruct)
+                DispatchQueue.main.async {
+                    self.allChampsArray = myStruct
+                    print("All champs array count", self.allChampsArray.count)
+                    self.tableView.reloadData()
+                }
+            } catch {
+                print("Didn't work")
+                return
+            }
+            
+        }
+        
+        task.resume()
+    }
 }
 
 extension TeamBuilderView: UICollectionViewDataSource {
@@ -298,9 +335,7 @@ extension TeamBuilderView: UICollectionViewDataSource {
             cell.champBorder.backgroundColor = .clear
             cell.champBorder.layer.borderWidth = 0
         }
-//        else if numberOfCells == 4 {
-//            madeFirstLine += 1
-//        }
+
         numberOfCells += 1
        return cell
     }
@@ -367,13 +402,14 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
 extension TeamBuilderView: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return allChampsArray.count
     }
     
     // Table View Cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create Cells one by one using this as a blueprint.
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
+//        cell.champName.text = allChampsArray[indexPath.row].name
         return cell
     }
     

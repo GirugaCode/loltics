@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - ChampionValue
-struct Champion: Decodable {
+struct ChampionData: Decodable {
     let id, key, name: String
     let origin, championClass: [String]
     let cost: Int
@@ -65,4 +65,12 @@ struct Offense: Codable {
     let damage: Int
     let attackSpeed: Double
     let dps, range: Int
+}
+
+typealias newChampion = [String: ChampionData]
+
+
+struct Champion: Decodable {
+    var name: String
+    var data: ChampionData
 }
