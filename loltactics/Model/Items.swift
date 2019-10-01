@@ -14,24 +14,26 @@ import Foundation
 struct Item: Decodable {
     let key, name: String
     let type: TypeEnum
-    let bonus: String
+    let itemsBonus: String?
     let tier, depth: Int
     let stats: [Stat]?
     let kind: Kind
     let buildsInto: [String]?
     let champs: [Champ]
     let buildsFrom: [BuildsFrom]?
+    let bonus: String?
 }
 
 enum BuildsFrom: String, Decodable {
-    case bfsword
-    case chainvest
-    case giantsbelt
-    case needlesslylargerod
-    case negatroncloak
-    case recurvebow
-    case spatula
-    case tearofthegoddess
+    case bfsword = "bfsword"
+    case chainvest = "chainvest"
+    case giantsbelt = "giantsbelt"
+    case needlesslylargerod = "needlesslylargerod"
+    case negatroncloak = "negatroncloak"
+    case recurvebow = "recurvebow"
+    case spatula = "spatula"
+    case tearofthegoddess = "tearofthegoddess"
+    case sparringgloves = "sparringgloves"
 }
 
 enum Champ: String, Decodable {
@@ -55,5 +57,6 @@ struct Stat: Decodable{
 enum TypeEnum: String, Decodable {
     case defensive
     case offensive
+    case typeOffensive
     case utility
 }

@@ -9,15 +9,12 @@
 import UIKit
 
 class ItemBuilderView: UIViewController {
-    var items: [Item] = [] {
-        didSet {
-            print(items)
-        }
-    }
+    
+    var items: [BuildsFrom]?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -28,29 +25,27 @@ class ItemBuilderView: UIViewController {
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let networklayer = NetworkLayer()
-        networklayer.getItems { (itemsData) in
-            print(itemsData)
-//            self.items = itemsData
-        }
-
+        loadItems()
         // Do any additional setup after loading the view.
         view.backgroundColor = .clear
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func loadItems() {
+        TFTServices.shared.getItems { (itemGetResult) in
+            switch itemGetResult {
+            case let .success(itemData):
+                self.items = itemData
+                print(itemData)
+            case let .failure(error):
+                print(error)
+            }
+            DispatchQueue.main.async {
+                //self.shopifyCollectionView.reloadData()
+                print("Hello")
+            }
+        }
     }
-    */
-
 }
