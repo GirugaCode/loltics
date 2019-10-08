@@ -22,6 +22,15 @@ class ChampionCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+//    // Continue Button image
+//    var champImage: UIImageView = {
+//        var newImage = UIImageView()
+//        newImage.image = #imageLiteral(resourceName: "Aatrox-Icon")
+//        newImage.translatesAutoresizingMaskIntoConstraints = false
+//        return newImage
+//    }()
+//    
 //
 //    // Addting title to Navbar
 //    let viewNavbarTitle: UITextView = {
@@ -65,12 +74,17 @@ class ChampionCollectionViewCell: UICollectionViewCell {
     
     func setupCellLayout() {
         self.addSubview(champBorder)
+//        self.ad dSubview(champImage)
         NSLayoutConstraint.activate([
             champBorder.topAnchor.constraint(equalTo: self.topAnchor),
             champBorder.leftAnchor.constraint(equalTo: self.leftAnchor),
             champBorder.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             champBorder.trailingAnchor.constraint(equalTo: self.trailingAnchor)
             ])
+//        champImage.frame = champBorder.bounds
+//        champImage.mask = champBorder
+//
+
     }
     
     required init?(coder aDecoder: NSCoder) {
