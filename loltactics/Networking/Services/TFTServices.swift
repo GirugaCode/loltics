@@ -13,9 +13,34 @@ struct TFTServices {
     static let shared = TFTServices()
     let urlSession = URLSession(configuration: .default)
     
-    func getItems(_ completion: @escaping(Result<[BuildsFrom]>) -> ()) {
+//    func downloadAllChamps() {
+//        let url = URL(string: "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")!
+//
+//        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+//            guard let data = data else { return }
+//
+//            print(String(data: data, encoding: .utf8)!)
+//            do {
+//                let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
+//                print(myStruct)
+//                DispatchQueue.main.async {
+//                    self.allChampsArray = myStruct
+//                    print("All champs array count", self.allChampsArray.count)
+//                    self.tableView.reloadData()
+//                }
+//            } catch {
+//                print("Didn't work")
+//                return
+//            }
+//
+//        }
+//
+//        task.resume()
+//    }
+    
+    func getChamps(_ completion: @escaping(Result<ChampionData>) -> ()) {
         do {
-            let request = try NetworkRequest.configureHTTPRequest(from: .itemList, with: nil)
+            let request = try NetworkRequest.configureHTTPRequest(from: .championList, with: nil)
             
             urlSession.dataTask(with: request) { (data, res, err) in
                 
@@ -24,8 +49,8 @@ struct TFTServices {
                     let result = NetworkResponse.handleNetworkResponse(for: response)
                     switch result {
                     case .success:
-                        let result = try? JSONDecoder().decode(Item.self, from: unwrappedData)
-                        guard let items = result?.buildsFrom else { return }
+                        let result = try? JSONDecoder().decode(ChampionData.self, from: unwrappedData)
+                        guard let items = result.self else { return }
                         DispatchQueue.main.async {
                             completion(Result.success(items))
                         }
@@ -40,6 +65,35 @@ struct TFTServices {
         } catch {
             completion(Result.failure(NetworkError.badRequest))
         }
-        
+    }
+    
+    func getItems(_ completion: @escaping(Result<Item>) -> ()) {
+        do {
+            let request = try NetworkRequest.configureHTTPRequest(from: .itemList, with: nil)
+            
+            let task = urlSession.dataTask(with: request) { (data, res, err) in
+                
+                if let response = res as? HTTPURLResponse, let unwrappedData = data {
+                    
+                    let result = NetworkResponse.handleNetworkResponse(for: response)
+                    switch result {
+                    case .success:
+                        let result = try? JSONDecoder().decode(Item.self, from: unwrappedData)
+                        guard let items = result else { return }
+                        DispatchQueue.main.async {
+                            completion(Result.success(items))
+                        }
+                    case .failure:
+                        DispatchQueue.main.async {
+                            completion(Result.failure(NetworkError.decodingFailed))
+                        }
+                    }
+                }
+            }
+            task.resume()
+            
+        } catch {
+            completion(Result.failure(NetworkError.badRequest))
+        }
     }
 }

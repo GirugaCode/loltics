@@ -10,7 +10,9 @@ import UIKit
 
 class ItemBuilderView: UIViewController {
     
-    var items: [BuildsFrom]?
+    var items: Item = [:]
+    var allItems: [ItemValue] = []
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -36,6 +38,7 @@ class ItemBuilderView: UIViewController {
 //        }
 
         // Do any additional setup after loading the view.
+        loadItems()
         view.backgroundColor = .clear
     }
     
@@ -44,7 +47,17 @@ class ItemBuilderView: UIViewController {
             switch itemGetResult {
             case let .success(itemData):
                 self.items = itemData
-                print(itemData)
+//                 print(itemData)
+                
+                let sortedKeys = itemData.keys.sorted(by: >)
+                
+                for key in sortedKeys {
+                    // TODO: Key to find image
+                    if let obj = itemData[key] {
+                        self.allItems.insert(obj, at: 0)
+                    }
+                }
+                print(self.allItems)
             case let .failure(error):
                 print(error)
             }

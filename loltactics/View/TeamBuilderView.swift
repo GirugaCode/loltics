@@ -84,6 +84,9 @@ class TeamBuilderView: UIViewController {
 //    self.tableView.reloadData()
 //    }
 //        }
+    
+    // ARRAY CHAMPS
+    var arrayOfChamps: [ChampionData] = []
 
     // CHAMP SELECTS
     var selectionsBackground: UIView = {
@@ -282,10 +285,10 @@ class TeamBuilderView: UIViewController {
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let data = data else { return }
             
-            print(String(data: data, encoding: .utf8)!)
+//            print(String(data: data, encoding: .utf8)!)
             do {
                 let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
-                print(myStruct)
+//                print(myStruct)
                 DispatchQueue.main.async {
                     self.allChampsArray = myStruct
                     print("All champs array count", self.allChampsArray.count)
