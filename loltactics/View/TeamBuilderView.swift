@@ -85,6 +85,9 @@ class TeamBuilderView: UIViewController {
 //    self.tableView.reloadData()
 //    }
 //        }
+    
+    // ARRAY CHAMPS
+    var arrayOfChamps: [ChampionData] = []
 
     // CHAMP SELECTS
     var selectionsBackground: UIView = {

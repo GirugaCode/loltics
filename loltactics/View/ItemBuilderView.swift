@@ -9,15 +9,14 @@
 import UIKit
 
 class ItemBuilderView: UIViewController {
-    var items: [Item] = [] {
-        didSet {
-            print(items)
-        }
-    }
+    
+    var items: Item = [:]
+    var allItems: [ItemValue] = []
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
@@ -28,7 +27,7 @@ class ItemBuilderView: UIViewController {
         // Show the navigation bar on other view controllers
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,18 +38,33 @@ class ItemBuilderView: UIViewController {
 //        }
 
         // Do any additional setup after loading the view.
+        loadItems()
         view.backgroundColor = .clear
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func loadItems() {
+        TFTServices.shared.getItems { (itemGetResult) in
+            switch itemGetResult {
+            case let .success(itemData):
+                self.items = itemData
+//                 print(itemData)
+                
+                let sortedKeys = itemData.keys.sorted(by: >)
+                
+                for key in sortedKeys {
+                    // TODO: Key to find image
+                    if let obj = itemData[key] {
+                        self.allItems.insert(obj, at: 0)
+                    }
+                }
+                print(self.allItems)
+            case let .failure(error):
+                print(error)
+            }
+            DispatchQueue.main.async {
+                //self.shopifyCollectionView.reloadData()
+                print("Hello")
+            }
+        }
     }
-    */
-
 }
