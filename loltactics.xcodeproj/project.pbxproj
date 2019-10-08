@@ -25,6 +25,9 @@
 		289E208B233C35EC00B648EF /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208A233C35EC00B648EF /* NetworkRoute.swift */; };
 		289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208C233C36AE00B648EF /* NetworkRequest.swift */; };
 		289E2090233C371400B648EF /* TFTServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208F233C371400B648EF /* TFTServices.swift */; };
+		F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50E8233D7CBF0087B3A1 /* Champion.swift */; };
+		F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */; };
+		F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,9 @@
 		289E208A233C35EC00B648EF /* NetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoute.swift; sourceTree = "<group>"; };
 		289E208C233C36AE00B648EF /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		289E208F233C371400B648EF /* TFTServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFTServices.swift; sourceTree = "<group>"; };
+		F3FD50E8233D7CBF0087B3A1 /* Champion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Champion.swift; sourceTree = "<group>"; };
+		F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionCollectionViewCell.swift; sourceTree = "<group>"; };
+		F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +162,8 @@
 				289D28D9233AB441006E2C37 /* MainTabBarView.swift */,
 				289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */,
 				289D28DD233AB828006E2C37 /* TeamBuilderView.swift */,
+				F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */,
+				F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */,
 				289D28DF233AB84D006E2C37 /* DevAboutView.swift */,
 			);
 			path = View;
@@ -172,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				289D28E1233AC332006E2C37 /* Items.swift */,
+				F3FD50E8233D7CBF0087B3A1 /* Champion.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -330,9 +339,12 @@
 			files = (
 				289E2090233C371400B648EF /* TFTServices.swift in Sources */,
 				289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */,
+				F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */,
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
+				F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */,
 				289E2087233C358900B648EF /* NetworkResponse.swift in Sources */,
 				289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */,
+				F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */,
 				289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */,
 				289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */,
 				289D28E5233AC377006E2C37 /* NetworkLayer.swift in Sources */,
@@ -509,8 +521,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FBPU586293;
+				DEVELOPMENT_TEAM = SAZ2DLKCVY;
 				INFOPLIST_FILE = loltactics/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -527,8 +540,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = FBPU586293;
+				DEVELOPMENT_TEAM = SAZ2DLKCVY;
 				INFOPLIST_FILE = loltactics/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
