@@ -76,8 +76,9 @@ class TeamBuilderView: UIViewController {
     var tableView = UITableView()
     
     // ALL CHAMPS
-    var allChampsArray: Dictionary<String, ChampionData> = [:]
+    var allChampsDict: newChampion = [:]
 //        didSet {
+    var allChampsArray: [ChampionData] = []
 //            
     //print("All champs array count", allChampsArray.count)
 //    DispatchQueue.main.async {
@@ -290,7 +291,15 @@ class TeamBuilderView: UIViewController {
                 let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
 //                print(myStruct)
                 DispatchQueue.main.async {
-                    self.allChampsArray = myStruct
+                    self.allChampsDict = myStruct
+                    
+                    let sortedKeys = self.allChampsDict.keys.sorted(by: >)
+                    
+                    for key in sortedKeys {
+                        if let obj = self.allChampsDict[key] {
+                            self.allChampsArray.insert(obj, at: 0)
+                        }
+                    }
                     print("All champs array count", self.allChampsArray.count)
                     self.tableView.reloadData()
                 }
@@ -412,7 +421,9 @@ extension TeamBuilderView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create Cells one by one using this as a blueprint.
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
-//        cell.champName.text = allChampsArray[indexPath.row].name
+        cell.champName.text = allChampsArray[indexPath.row].name
+//        print((allChampsArray[indexPath.row].name + "-Icon.png"))
+        cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row].name + "-Icon"))
         return cell
     }
     
@@ -430,3 +441,13 @@ extension TeamBuilderView: UITableViewDelegate {
         print("Deselected")
     }
 }
+
+//extension String {
+//    func toImage() -> UIImage? {
+//        if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
+//            return UIImage(data: data)
+//        }
+//        print("Image not found")
+//        return nil
+//    }
+//}
