@@ -116,6 +116,27 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
+    var champSelectOne: UIButton = {
+        var button = UIButton()
+        button.setTitle("1", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
+        return button
+    }()
+    
+    var champSelectTwo: UIButton = {
+        var button = UIButton()
+        button.setTitle("2", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        return button
+    }()
+    
+    var champSelectThree: UIButton = {
+        var button = UIButton()
+        button.setTitle("3", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        return button
+    }()
+    
     var second: UIView = {
         var view = UIView()
         view.layer.borderWidth = 1
@@ -266,10 +287,25 @@ class TeamBuilderView: UIViewController {
             ])
         view.bringSubviewToFront(selectionsBackground)
         
-        selectionsStack = UIStackView(arrangedSubviews: [first,second,third])
+        selectionsStack = UIStackView(arrangedSubviews: [champSelectOne,champSelectTwo,champSelectThree])
         selectionsStack.axis = .horizontal
+        selectionsStack.alignment = .center
+        selectionsStack.distribution = .fillEqually
         
-//        view.addSubview(selectionsStack)
+        view.addSubview(selectionsStack)
+        print("x:\(view.bounds.width / 2), y: \(view.bounds.height * 0.06)")
+//        selectionsStack.frame = CGRect(x: view.bounds.width / 2, y: view.bounds.height * 0.06, width: 100, height: 50)
+        
+        selectionsStack.translatesAutoresizingMaskIntoConstraints = false
+        selectionsStack.widthAnchor.constraint(equalToConstant: 142).isActive = true
+        selectionsStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        selectionsStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 117).isActive = true
+//        selectionsStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
+        selectionsStack.centerYAnchor.constraint(equalTo: selectionsBackground.centerYAnchor).isActive = true
+
+        
+        view.bringSubviewToFront(selectionsStack)
+        selectionsStack.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
 //        NSLayoutConstraint.activate([
 //            selectionsStack.topAnchor.constraint(equalTo: selectionsBackground.topAnchor),
 //            selectionsStack.leadingAnchor.constraint(equalTo: selectionsBackground.leadingAnchor),
