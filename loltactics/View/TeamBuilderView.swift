@@ -45,6 +45,21 @@ class TeamBuilderView: UIViewController {
     // Scaling whole collection view
     var collectionViewScale = UIScreen.main.bounds.width * 0.8
     
+    // teamClasses
+    var classesLabel: UITextView = {
+        var title = UITextView()
+        title.text = "Classes"
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 40) // Size to make it scalable (supposed to be around 33 onn iphone x)
+        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .left
+        title.isEditable = false
+        title.isScrollEnabled = false
+        title.isSelectable = false
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
+    
     /// COLLECTION VIEW BACKGROUND
     var champSelectBackground: UIView = {
         var view = UIView()
@@ -176,7 +191,8 @@ class TeamBuilderView: UIViewController {
         makeTabBackground()
         downloadAllChamps()
         
-        teamBuilder.buildModel()
+        // MARK: UNCOMMENT HERE TO HAVE DATA
+//        teamBuilder.buildModel()
 //        teamBuilder.buildClassDict()
 //        teamBuilder.countChamps()
     }
@@ -201,6 +217,14 @@ class TeamBuilderView: UIViewController {
             champSelectBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             champSelectBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
             ])
+        
+        view.addSubview(classesLabel)
+        NSLayoutConstraint.activate([
+            classesLabel.bottomAnchor.constraint(equalTo: champSelectBackground.topAnchor),
+            classesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            classesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            classesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
 //
 //        // Search tab background
 //        view.addSubview(searchBackground)
@@ -345,6 +369,7 @@ class TeamBuilderView: UIViewController {
             
             
             collectionView.reloadData()
+            updateClassLabel()
             
             if championsSelected.count == 0 {
                 selectionOne = false
@@ -389,6 +414,7 @@ class TeamBuilderView: UIViewController {
             
             
             collectionView.reloadData()
+            updateClassLabel()
 
             if championsSelected.count == 1 {
                 selectionOne = true
@@ -425,6 +451,7 @@ class TeamBuilderView: UIViewController {
             
             
             collectionView.reloadData()
+            updateClassLabel()
             
             if championsSelected.count == 2 {
                 selectionOne = true
@@ -444,6 +471,25 @@ class TeamBuilderView: UIViewController {
                 champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
             }
         }
+    }
+    
+    func updateClassLabel() {
+//        championClass
+        var origins: [String] = []
+        for champClass in championsRecommended {
+            for origin in champClass.origin {
+                if origins.contains(origin) == false {
+                    origins.append(origin)
+                }
+            }
+            
+            for classData in champClass.championClass {
+                if origins.contains(classData) == false {
+                    origins.append(classData)
+                }
+            }
+        }
+        classesLabel.text = origins.joined(separator: ", ")
     }
     
     
@@ -618,12 +664,14 @@ extension TeamBuilderView: UITableViewDataSource {
                 champSelectOne.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
                 championsRecommended.append(allChampsArray[indexPath.row])
                 collectionView.reloadData()
+                updateClassLabel()
             } else if selectionTwo == false {
                 selectionTwo = true
                 championsSelected.append(allChampsArray[indexPath.row].name)
                 champSelectTwo.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
                 championsRecommended.append(allChampsArray[indexPath.row])
                 collectionView.reloadData()
+                updateClassLabel()
             }
             else if selectionThree == false {
                 selectionThree = true
@@ -631,6 +679,7 @@ extension TeamBuilderView: UITableViewDataSource {
                 champSelectThree.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
                 championsRecommended.append(allChampsArray[indexPath.row])
                 collectionView.reloadData()
+                updateClassLabel()
             } else {
                 print("full")
             }

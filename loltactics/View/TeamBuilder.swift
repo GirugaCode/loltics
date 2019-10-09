@@ -102,7 +102,7 @@ class TeamBuilder {
             print("\(champClass.name) bonuses:", champClass.bonuses)
             classesNeeded[champClass.name] = highest
         }
-        print(classesNeeded)
+//        print(classesNeeded)
     }
     
 //
