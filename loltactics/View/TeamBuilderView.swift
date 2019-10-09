@@ -49,7 +49,7 @@ class TeamBuilderView: UIViewController {
     // teamClasses
     var classesLabel: UITextView = {
         var title = UITextView()
-        title.text = "Classes"
+        title.text = ""
         title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 40) // Size to make it scalable (supposed to be around 33 onn iphone x)
         title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
         title.backgroundColor = nil
@@ -176,7 +176,7 @@ class TeamBuilderView: UIViewController {
 //        view.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
 //        view.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
 
-        emptyStateImage.frame = CGRect(x: (view.bounds.width / 2) - (90), y: 60, width: 242/1.3, height: 267/1.3)
+        emptyStateImage.frame = CGRect(x: (view.bounds.width / 2) - (90), y: 90, width: 242/1.3, height: 267/1.3)
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -235,7 +235,7 @@ class TeamBuilderView: UIViewController {
         NSLayoutConstraint.activate([
             classesLabel.bottomAnchor.constraint(equalTo: champSelectBackground.topAnchor),
             classesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            classesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            classesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             classesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
         //
@@ -330,7 +330,7 @@ class TeamBuilderView: UIViewController {
         
         
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        
+    
         
         
     }
@@ -351,6 +351,7 @@ class TeamBuilderView: UIViewController {
         selectionsStack.axis = .horizontal
         selectionsStack.alignment = .center
         selectionsStack.distribution = .fillEqually
+        selectionsStack.spacing = 3
         
         view.addSubview(selectionsStack)
         //        print("x:\(view.bounds.width / 2), y: \(view.bounds.height * 0.06)")
@@ -358,7 +359,7 @@ class TeamBuilderView: UIViewController {
         
         selectionsStack.translatesAutoresizingMaskIntoConstraints = false
         selectionsStack.widthAnchor.constraint(equalToConstant: 142).isActive = true
-        selectionsStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        selectionsStack.heightAnchor.constraint(equalToConstant: 35).isActive = true
         selectionsStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 117).isActive = true
         //        selectionsStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
         selectionsStack.centerYAnchor.constraint(equalTo: selectionsBackground.centerYAnchor).isActive = true
@@ -385,6 +386,7 @@ class TeamBuilderView: UIViewController {
             updateClassLabel()
             
             if championsSelected.count == 0 {
+                emptyStateImage.alpha = 1
                 selectionOne = false
                 selectionTwo = false
                 selectionThree = false
@@ -609,6 +611,7 @@ extension TeamBuilderView: UITableViewDataSource {
         cell.champName.text = champ.name
         //        print((allChampsArray[indexPath.row].name + "-Icon.png"))
         cell.champImage.image = UIImage(named: (champ.name + "-Icon"))
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -625,7 +628,7 @@ extension TeamBuilderView: UITableViewDataSource {
         }
         if canContinue == true {
             if selectionOne == false {
-                emptyStateImage.alpha = 0 // TODO: change 
+                emptyStateImage.alpha = 0 // TODO: change
                 selectionOne = true
                 championsSelected.append(teamBuilder.champs[indexPath.row].name)
                 champSelectOne.setImage(UIImage(named: (teamBuilder.champs[indexPath.row].name + "-Icon")), for: .normal)
