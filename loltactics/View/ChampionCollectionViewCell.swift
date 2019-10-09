@@ -23,6 +23,13 @@ class ChampionCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    var champImage: UIImageView = {
+        var newImage = UIImageView()
+        newImage.image = #imageLiteral(resourceName: "Aatrox-Icon")
+        newImage.translatesAutoresizingMaskIntoConstraints = false
+        return newImage
+    }()
+    
 //    // Continue Button image
 //    var champImage: UIImageView = {
 //        var newImage = UIImageView()
@@ -85,6 +92,15 @@ class ChampionCollectionViewCell: UICollectionViewCell {
 //        champImage.mask = champBorder
 //
 
+        self.addSubview(champImage)
+        NSLayoutConstraint.activate([
+            champImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            champImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            champImage.heightAnchor.constraint(equalToConstant: 50),
+            champImage.widthAnchor.constraint(equalToConstant: 50)
+            //
+            //            champImage
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {
