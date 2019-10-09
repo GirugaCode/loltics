@@ -8,7 +8,9 @@
 
 import UIKit
 
+// ViewController for champs
 class TeamBuilderView: UIViewController {
+    let teamBuilder = TeamBuilder()
     
     /// TOP LABEL
     var teamLabel: UITextView = {
@@ -29,6 +31,9 @@ class TeamBuilderView: UIViewController {
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
     
+    // Output array pretty much
+    var championsRecommended: [ChampionData] = []
+    
     // Couting cells for Flow layout
     var cellsMade = 0
     
@@ -40,6 +45,21 @@ class TeamBuilderView: UIViewController {
     
     // Scaling whole collection view
     var collectionViewScale = UIScreen.main.bounds.width * 0.8
+    
+    // teamClasses
+    var classesLabel: UITextView = {
+        var title = UITextView()
+        title.text = ""
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 40) // Size to make it scalable (supposed to be around 33 onn iphone x)
+        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        title.backgroundColor = nil
+        title.textAlignment = .left
+        title.isEditable = false
+        title.isScrollEnabled = false
+        title.isSelectable = false
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
     
     /// COLLECTION VIEW BACKGROUND
     var champSelectBackground: UIView = {
@@ -54,19 +74,10 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
-    var searchBackground: UIView = {
-        var view = UIView()
-        view.layer.borderWidth = 1
-        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
-        view.layer.shadowOpacity = 1
-        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
-        view.layer.shadowRadius = 4
-        view.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
-        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    
+    //    let searchController = UISearchController(searchResultsController: nil)
+    
+    //    var filteredChampions = [ChampionData]()
     
     // TABLE VIEW
     // Cell ID
@@ -75,20 +86,6 @@ class TeamBuilderView: UIViewController {
     // Creating table view
     var tableView = UITableView()
     
-    // ALL CHAMPS
-    var allChampsDict: newChampion = [:]
-//        didSet {
-    var allChampsArray: [ChampionData] = []
-//            
-    //print("All champs array count", allChampsArray.count)
-//    DispatchQueue.main.async {
-//    self.tableView.reloadData()
-//    }
-//        }
-    
-    // ARRAY CHAMPS
-    var arrayOfChamps: [ChampionData] = []
-
     // CHAMP SELECTS
     var selectionsBackground: UIView = {
         var view = UIView()
@@ -105,6 +102,37 @@ class TeamBuilderView: UIViewController {
     }()
     
     var selectionsStack = UIStackView()
+    
+    var selectionOne = false
+    var selectionTwo = false
+    var selectionThree = false
+    
+    var championsSelected: [String] = []
+    
+    // Images for selected champs
+    var champSelectOne: UIButton = {
+        var button = UIButton()
+        button.setTitle("1", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampOne), for: .touchUpInside)
+        return button
+    }()
+    
+    var champSelectTwo: UIButton = {
+        var button = UIButton()
+        button.setTitle("2", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampTwo), for: .touchUpInside)
+        return button
+    }()
+    
+    var champSelectThree: UIButton = {
+        var button = UIButton()
+        button.setTitle("3", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampThree), for: .touchUpInside)
+        return button
+    }()
     
     var first: UIView = {
         var view = UIView()
@@ -136,11 +164,40 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
+    var emptyStateImage = UIImageView(image: #imageLiteral(resourceName: "champ-emptystate"))
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        view.addSubview(emptyStateImage)
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.widthAnchor.constraint(equalToConstant: 242/2).isActive = true
+//        view.heightAnchor.constraint(equalToConstant: 267/2).isActive = true
+//        view.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
+//        view.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
+        
+        emptyStateImage.frame = CGRect(x: (view.bounds.width / 2) - (90), y: 90, width: 242/1.3, height: 267/1.3)
+        
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    var emptyStateImageWifi = UIImageView(image: #imageLiteral(resourceName: "Blitz-art"))
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if teamBuilder.champs.count == 0 {
+            teamBuilder.loadChamps()
+        } else {
+            tableView.reloadData()
+        }
+        view.addSubview(emptyStateImageWifi)
+        
+        emptyStateImageWifi.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateImageWifi.widthAnchor.constraint(equalToConstant: 232).isActive = true
+        emptyStateImageWifi.heightAnchor.constraint(equalToConstant: 232).isActive = true
+        emptyStateImageWifi.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72).isActive = true
+        emptyStateImageWifi.topAnchor.constraint(equalTo: view.topAnchor, constant: 332).isActive = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -152,16 +209,25 @@ class TeamBuilderView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = #colorLiteral(red: 0.9607108235, green: 0.9608257413, blue: 0.9606716037, alpha: 1)
+        
         setupLayout()
         setupTableView()
         setupChampSelections()
-        
         makeTabBackground()
         
-        downloadAllChamps()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTableView), name: Notification.Name("loadedChamps"), object: nil)
 
+        
+        teamBuilder.loadChamps()
+//        allChampsArray =
+        
+    }
+    
+    @objc func reloadTableView() {
+        tableView.reloadData()
+        
+        emptyStateImageWifi.isHidden = true
     }
     
     func setupLayout() {
@@ -172,9 +238,9 @@ class TeamBuilderView: UIViewController {
         NSLayoutConstraint.activate([
             teamLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             teamLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-        ])
+            ])
         
-    // SEARCH
+        // SEARCH
         
         // Background
         view.addSubview(champSelectBackground)
@@ -185,15 +251,32 @@ class TeamBuilderView: UIViewController {
             champSelectBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
             ])
         
-        // Search tab background
-        view.addSubview(searchBackground)
+        view.addSubview(classesLabel)
         NSLayoutConstraint.activate([
-            searchBackground.topAnchor.constraint(equalTo: champSelectBackground.topAnchor, constant: 25),
-            searchBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            searchBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            searchBackground.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.14)
+            classesLabel.bottomAnchor.constraint(equalTo: champSelectBackground.topAnchor),
+            classesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            classesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            classesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
+        //
+        //        // Search tab background
+        //        view.addSubview(searchBackground)
+        //        NSLayoutConstraint.activate([
+        //            searchBackground.topAnchor.constraint(equalTo: champSelectBackground.topAnchor, constant: 25),
+        //            searchBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+        //            searchBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+        //            searchBackground.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.14)
+        //            ])
         
+        //        view.addSubview(searchBar)
+        //        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        //        searchBar.trailingAnchor.constraint(equalTo: searchBackground.trailingAnchor).isActive = true
+        //        searchBar.heightAnchor.constraint(equalTo: searchBackground.heightAnchor).isActive = true
+        //        searchBar.leadingAnchor.constraint(equalTo: searchBackground.leadingAnchor, constant: 0).isActive = true
+        //        searchBar.topAnchor.constraint(equalTo: searchBackground.topAnchor, constant: 0).isActive = true
+        ////        selectionsStack.centerYAnchor.constraint(equalTo: selectionsBackground.centerYAnchor).isActive = true
+        //
+        //
     }
     
     func setupCollectionView() {
@@ -235,10 +318,25 @@ class TeamBuilderView: UIViewController {
     }
     
     func setupTableView() {
-        tableView = UITableView(frame: CGRect(x: 15, y: collectionViewScale + collectionViewScale / 5, width: view.bounds.size.width - 30, height: (view.bounds.size.height - ((collectionViewScale + collectionViewScale / 5) + (view.bounds.size.height/8)))))
+        tableView = UITableView(frame: CGRect(x: 15, y: collectionViewScale, width: view.bounds.size.width - 30, height: (view.bounds.size.height - ((collectionViewScale) + (view.bounds.size.height/8)))))
+        
+        // MARK: This is gonna be useful when I'm returning the searchbar.
+        
+        //        searchController.searchResultsUpdater = self
+        ////        searchController.obscuresBackgroundDuringPresentation = false
+        //        searchController.searchBar.placeholder = "Search Champions"
+        //        //        navigationItem.searchController = searchController
+        ////        definesPresentationContext = true
+        //
+        ////        searchController.searchResultsUpdater = self
+        //        //        searchController.hidesNavigationBarDuringPresentation = false
+        //        //        searchController.dimsBackgroundDuringPresentation = false
+        //        //        searchController.searchBar.sizeToFit()
+        //        tableView.tableHeaderView = searchController.searchBar
+        //
         // Add to Table View to View
         view.addSubview(tableView)
-
+        
         
         // Register Table View Cells
         tableView.register(ChampionTableViewCell.self, forCellReuseIdentifier: cellId)
@@ -247,11 +345,14 @@ class TeamBuilderView: UIViewController {
         
         // Table View
         tableView.backgroundColor = .clear
-//        view.bringSubviewToFront(tableView)
+        //        view.bringSubviewToFront(tableView)
         
-
-
+        
+        
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+    
+        
+        
     }
     
     func setupChampSelections() {
@@ -266,93 +367,200 @@ class TeamBuilderView: UIViewController {
             ])
         view.bringSubviewToFront(selectionsBackground)
         
-        selectionsStack = UIStackView(arrangedSubviews: [first,second,third])
+        selectionsStack = UIStackView(arrangedSubviews: [champSelectOne,champSelectTwo,champSelectThree])
         selectionsStack.axis = .horizontal
+        selectionsStack.alignment = .center
+        selectionsStack.distribution = .fillEqually
+        selectionsStack.spacing = 3
         
-//        view.addSubview(selectionsStack)
-//        NSLayoutConstraint.activate([
-//            selectionsStack.topAnchor.constraint(equalTo: selectionsBackground.topAnchor),
-//            selectionsStack.leadingAnchor.constraint(equalTo: selectionsBackground.leadingAnchor),
-//            selectionsStack.trailingAnchor.constraint(equalTo: selectionsBackground.trailingAnchor),
-//            selectionsStack.bottomAnchor.constraint(equalTo: selectionsBackground.bottomAnchor),
-//            selectionsStack.centerXAnchor.constraint(equalTo: selectionsBackground.centerXAnchor)
-//            ])
+        view.addSubview(selectionsStack)
+        //        print("x:\(view.bounds.width / 2), y: \(view.bounds.height * 0.06)")
+        //        selectionsStack.frame = CGRect(x: view.bounds.width / 2, y: view.bounds.height * 0.06, width: 100, height: 50)
+        
+        selectionsStack.translatesAutoresizingMaskIntoConstraints = false
+        selectionsStack.widthAnchor.constraint(equalToConstant: 142).isActive = true
+        selectionsStack.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        selectionsStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 117).isActive = true
+        //        selectionsStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120).isActive = true
+        selectionsStack.centerYAnchor.constraint(equalTo: selectionsBackground.centerYAnchor).isActive = true
+        
+        
+        view.bringSubviewToFront(selectionsStack)
+        selectionsStack.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        //        NSLayoutConstraint.activate([
+        //            selectionsStack.topAnchor.constraint(equalTo: selectionsBackground.topAnchor),
+        //            selectionsStack.leadingAnchor.constraint(equalTo: selectionsBackground.leadingAnchor),
+        //            selectionsStack.trailingAnchor.constraint(equalTo: selectionsBackground.trailingAnchor),
+        //            selectionsStack.bottomAnchor.constraint(equalTo: selectionsBackground.bottomAnchor),
+        //            selectionsStack.centerXAnchor.constraint(equalTo: selectionsBackground.centerXAnchor)
+        //            ])
     }
     
-    /// GET REQUEST to https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json for champs JSON
-    func downloadAllChamps() {
-        let url = URL(string: "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json")!
-        
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let data = data else { return }
+    @objc func removeChampOne() {
+        if championsSelected.count > 0 {
+            championsRecommended.remove(at: 0)
+            championsSelected.remove(at: 0)
             
-//            print(String(data: data, encoding: .utf8)!)
-            do {
-                let myStruct = try JSONDecoder().decode(newChampion.self, from: data)
-//                print(myStruct)
-                DispatchQueue.main.async {
-                    self.allChampsDict = myStruct
-                    
-                    let sortedKeys = self.allChampsDict.keys.sorted(by: >)
-                    
-                    for key in sortedKeys {
-                        if let obj = self.allChampsDict[key] {
-                            self.allChampsArray.insert(obj, at: 0)
-                        }
-                    }
-                    print("All champs array count", self.allChampsArray.count)
-                    self.tableView.reloadData()
+            
+            collectionView.reloadData()
+            updateClassLabel()
+            
+            if championsSelected.count == 0 {
+                emptyStateImage.alpha = 1
+                selectionOne = false
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 1 {
+                selectionOne = true
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    @objc func removeChampTwo() {
+        if championsSelected.count > 1 {
+            championsRecommended.remove(at: 1)
+            championsSelected.remove(at: 1)
+            
+            
+            collectionView.reloadData()
+            updateClassLabel()
+            
+            if championsSelected.count == 1 {
+                selectionOne = true
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    @objc func removeChampThree() {
+        if championsSelected.count == 3 {
+            championsRecommended.remove(at: 2)
+            championsSelected.remove(at: 2)
+            
+            
+            collectionView.reloadData()
+            updateClassLabel()
+            
+            if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    func updateClassLabel() {
+        //        championClass
+        var origins: [String] = []
+        for champClass in championsRecommended {
+            for origin in champClass.origin {
+                if origins.contains(origin) == false {
+                    origins.append(origin)
                 }
-            } catch {
-                print("Didn't work")
-                return
             }
             
+            for classData in champClass.championClass {
+                if origins.contains(classData) == false {
+                    origins.append(classData)
+                }
+            }
         }
-        
-        task.resume()
+        classesLabel.text = origins.joined(separator: ", ")
     }
+    
+    // MARK: For searchbar in table view
+    //    func isFiltering() -> Bool {
+    //        return searchController.isActive && !searchBarIsEmpty()
+    //    }
 }
 
 extension TeamBuilderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            print("first")
-            return 5
-        } else if section == 1 {
-            print("second")
-            return 5
-        }
-        else {
-            print("third")
-            return 4
-        }
+        //        if section == 0 {
+        //            print("first")
+        //            return 5
+        //        } else /* if section == 1 */ {
+        //            print("second")
+        //            return 5
+        //        }
+        //        else {
+        //            print("third")
+        //            return 4
+        //        }
+        return championsRecommended.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
-        print(numberOfCells)
-        if numberOfCells >= 10 {
-            print("second line working")
-            madeFirstLine += 1
-            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
-            cell.champBorder.layer.borderWidth = 0
+        if championsRecommended.count > 0 {
+            cell.champImage.image = UIImage(named: (championsRecommended[indexPath.row].name + "-Icon"))
         }
         
-        else if numberOfCells == 5 {
-            print("working")
-            madeFirstLine += 1
-            madeSecondLine += 1
-            cell.champBorder.backgroundColor = .clear
-            cell.champBorder.layer.borderWidth = 0
-        }
-
-        numberOfCells += 1
-       return cell
+        return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell Pressed")
+        print("Cell tapped")
     }
 }
 
@@ -360,36 +568,25 @@ extension TeamBuilderView: UICollectionViewDataSource {
 
 extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if  cellsMade == 5 {
-            print("diffenretn")
-            cellsMade = 6
-            return CGSize(width: collectionViewScale / 10, height: collectionViewScale / 5)
-        }
-
-        if cellsMade >= 10 {
-            print("last cell")
-            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
-        }
-        cellsMade += 1
         return CGSize(width: collectionViewScale / 5, height: collectionViewScale / 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        print("called")
-        if section == 0 {
-            return UIEdgeInsets(top: 0, left: 0, bottom: collectionViewScale / -20, right: 0)
-            
-        }
-        if section == 2 {
-            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
-
-        }
+        //        print("called")
+        //        if section == 0 {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        //
+        //        }
+        //        if section == 2 {
+        //            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
+        //
+        //        }
+        //        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -414,21 +611,69 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
 extension TeamBuilderView: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allChampsArray.count
+        //        if isFiltering() {
+        //            return filteredChampions.count
+        //        }
+        return teamBuilder.champs.count
     }
     
     // Table View Cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create Cells one by one using this as a blueprint.
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
-        cell.champName.text = allChampsArray[indexPath.row].name
-//        print((allChampsArray[indexPath.row].name + "-Icon.png"))
-        cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row].name + "-Icon"))
+        var champ: ChampionData
+        //        if isFiltering() {
+        //            champ = filteredChampions[indexPath.row]
+        //        } else {
+        champ = teamBuilder.champs[indexPath.row]
+        //        }
+        
+        cell.champName.text = champ.name
+        //        print((allChampsArray[indexPath.row].name + "-Icon.png"))
+        cell.champImage.image = UIImage(named: (champ.name + "-Icon"))
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Tapped")
+        //        print("Tapped")
+        
+        var canContinue = true
+        
+        // Check if champ already selected
+        for string in championsSelected {
+            if teamBuilder.champs[indexPath.row].name == string {
+                canContinue = false
+            }
+        }
+        if canContinue == true {
+            if selectionOne == false {
+                emptyStateImage.alpha = 0 // TODO: change
+                selectionOne = true
+                championsSelected.append(teamBuilder.champs[indexPath.row].name)
+                champSelectOne.setImage(UIImage(named: (teamBuilder.champs[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(teamBuilder.champs[indexPath.row])
+                collectionView.reloadData()
+                updateClassLabel()
+            } else if selectionTwo == false {
+                selectionTwo = true
+                championsSelected.append(teamBuilder.champs[indexPath.row].name)
+                champSelectTwo.setImage(UIImage(named: (teamBuilder.champs[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(teamBuilder.champs[indexPath.row])
+                collectionView.reloadData()
+                updateClassLabel()
+            }
+            else if selectionThree == false {
+                selectionThree = true
+                championsSelected.append(teamBuilder.champs[indexPath.row].name)
+                champSelectThree.setImage(UIImage(named: (teamBuilder.champs[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(teamBuilder.champs[indexPath.row])
+                collectionView.reloadData()
+                updateClassLabel()
+            } else {
+                print("full")
+            }
+        }
     }
 }
 
@@ -449,5 +694,26 @@ extension TeamBuilderView: UITableViewDelegate {
 //        }
 //        print("Image not found")
 //        return nil
+//    }
+//}
+//
+//extension TeamBuilderView: UISearchResultsUpdating {
+//    // MARK: - UISearchResultsUpdating Delegate
+//    func updateSearchResults(for searchController: UISearchController) {
+//        // TODO
+//        filterContentForSearchText(searchController.searchBar.text!)
+//    }
+//
+//    func searchBarIsEmpty() -> Bool {
+//        // Returns true if the text is empty or nil
+//        return searchController.searchBar.text?.isEmpty ?? true
+//    }
+//
+//    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+//        filteredChampions = allChampsArray.filter({( champ : ChampionData) -> Bool in
+//            return champ.name.lowercased().contains(searchText.lowercased())
+//        })
+//
+//        tableView.reloadData()
 //    }
 //}

@@ -12,4 +12,6 @@ public enum NetworkRoute: String {
     // Enum for the TFT API URLs
     case itemList = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/items.json"
     case championList = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json"
+    case championClass = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/classes.json"
+    case championOrigin = "https://solomid-resources.s3.amazonaws.com/blitz/tft/data/origins.json"
 }

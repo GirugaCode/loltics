@@ -18,9 +18,16 @@ class ChampionCollectionViewCell: UICollectionViewCell {
 //        view.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
         view.layer.borderColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
         view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+//        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    
+    var champImage: UIImageView = {
+        var newImage = UIImageView()
+        newImage.image = UIImage()
+        newImage.translatesAutoresizingMaskIntoConstraints = false
+        return newImage
     }()
     
 //    // Continue Button image
@@ -75,16 +82,26 @@ class ChampionCollectionViewCell: UICollectionViewCell {
     func setupCellLayout() {
         self.addSubview(champBorder)
 //        self.ad dSubview(champImage)
+        let constant: CGFloat = 3.0
         NSLayoutConstraint.activate([
-            champBorder.topAnchor.constraint(equalTo: self.topAnchor),
-            champBorder.leftAnchor.constraint(equalTo: self.leftAnchor),
-            champBorder.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            champBorder.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            champBorder.topAnchor.constraint(equalTo: self.topAnchor, constant: constant),
+            champBorder.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: constant),
+            champBorder.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: constant * -1),
+            champBorder.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: constant * -1)
             ])
 //        champImage.frame = champBorder.bounds
 //        champImage.mask = champBorder
 //
 
+        self.addSubview(champImage)
+        NSLayoutConstraint.activate([
+            champImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            champImage.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            champImage.heightAnchor.constraint(equalToConstant: 50),
+            champImage.widthAnchor.constraint(equalToConstant: 50)
+            //
+            //            champImage
+            ])
     }
     
     required init?(coder aDecoder: NSCoder) {

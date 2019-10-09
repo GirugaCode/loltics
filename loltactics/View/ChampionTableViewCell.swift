@@ -58,7 +58,7 @@ class ChampionTableViewCell: UITableViewCell {
         self.addSubview(champName)
         self.addSubview(champImage)
         NSLayoutConstraint.activate([
-            champBorder.topAnchor.constraint(equalTo: self.topAnchor),
+            champBorder.topAnchor.constraint(equalTo: self.topAnchor, constant: 10),
             champBorder.leftAnchor.constraint(equalTo: self.leftAnchor),
             champBorder.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             champBorder.trailingAnchor.constraint(equalTo: self.trailingAnchor),
