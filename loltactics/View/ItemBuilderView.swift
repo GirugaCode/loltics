@@ -13,7 +13,7 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     
     //MARK: PROPERTIES
     var baseItems = ["recurvebow", "giantsbelt", "needlesslylargerod", "chainvest", "sparringgloves", "negatroncloak","bfsword","tearofthegoddess","spatula"]
-    var data: [Int] = Array(0..<9)
+    var selectedItems = [String]()
     var viewModel = ItemViewModel()
     
     
