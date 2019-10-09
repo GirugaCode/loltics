@@ -25,7 +25,7 @@ class ChampionCollectionViewCell: UICollectionViewCell {
     
     var champImage: UIImageView = {
         var newImage = UIImageView()
-        newImage.image = #imageLiteral(resourceName: "Aatrox-Icon")
+        newImage.image = UIImage()
         newImage.translatesAutoresizingMaskIntoConstraints = false
         return newImage
     }()

@@ -29,6 +29,9 @@ class TeamBuilderView: UIViewController {
     var collectionView: UICollectionView!
     var flowLayout = UICollectionViewFlowLayout()
     
+    // Output array pretty much
+    var championsRecommended: [ChampionData] = []
+    
     // Couting cells for Flow layout
     var cellsMade = 0
     
@@ -54,34 +57,10 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
-//    // SEARCH
-//    var searchBackground: UIView = {
-//        var view = UIView()
-//        view.layer.borderWidth = 1
-//        view.layer.borderColor = #colorLiteral(red: 0.4937598109, green: 0.3993486464, blue: 0.9166263342, alpha: 1)
-//        view.layer.shadowOpacity = 1
-//        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
-//        view.layer.shadowRadius = 4
-//        view.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
-//        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
     
-    var searchBar: UISearchBar = {
-       var bar = UISearchBar()
-        bar.searchBarStyle = UISearchBar.Style.prominent
-        bar.placeholder = " Search..."
-//        bar.sizeToFit()
-        bar.isTranslucent = true
-//        bar.backgroundImage = UIImage()
-        return bar
-    }()
+//    let searchController = UISearchController(searchResultsController: nil)
     
-    let searchController = UISearchController(searchResultsController: nil)
-    
-    var filteredChampions = [ChampionData]()
+//    var filteredChampions = [ChampionData]()
     
     // TABLE VIEW
     // Cell ID
@@ -92,17 +71,7 @@ class TeamBuilderView: UIViewController {
     
     // ALL CHAMPS
     var allChampsDict: newChampion = [:]
-//        didSet {
     var allChampsArray: [ChampionData] = []
-//            
-    //print("All champs array count", allChampsArray.count)
-//    DispatchQueue.main.async {
-//    self.tableView.reloadData()
-//    }
-//        }
-    
-    // ARRAY CHAMPS
-    var arrayOfChamps: [ChampionData] = []
 
     // CHAMP SELECTS
     var selectionsBackground: UIView = {
@@ -289,18 +258,20 @@ class TeamBuilderView: UIViewController {
     func setupTableView() {
         tableView = UITableView(frame: CGRect(x: 15, y: collectionViewScale, width: view.bounds.size.width - 30, height: (view.bounds.size.height - ((collectionViewScale) + (view.bounds.size.height/8)))))
         
-        searchController.searchResultsUpdater = self
-//        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Champions"
-        //        navigationItem.searchController = searchController
-//        definesPresentationContext = true
+        // MARK: This is gonna be useful when I'm returning the searchbar.
         
 //        searchController.searchResultsUpdater = self
-        //        searchController.hidesNavigationBarDuringPresentation = false
-        //        searchController.dimsBackgroundDuringPresentation = false
-        //        searchController.searchBar.sizeToFit()
-        tableView.tableHeaderView = searchController.searchBar
-        
+////        searchController.obscuresBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Search Champions"
+//        //        navigationItem.searchController = searchController
+////        definesPresentationContext = true
+//
+////        searchController.searchResultsUpdater = self
+//        //        searchController.hidesNavigationBarDuringPresentation = false
+//        //        searchController.dimsBackgroundDuringPresentation = false
+//        //        searchController.searchBar.sizeToFit()
+//        tableView.tableHeaderView = searchController.searchBar
+//
         // Add to Table View to View
         view.addSubview(tableView)
 
@@ -386,6 +357,9 @@ class TeamBuilderView: UIViewController {
                     }
                     print("All champs array count", self.allChampsArray.count)
                     self.tableView.reloadData()
+                    
+                    // MARK: Might need to delete.
+                    self.collectionView.reloadData()
                 }
             } catch {
                 print("Didn't work")
@@ -395,11 +369,13 @@ class TeamBuilderView: UIViewController {
         }
         
         task.resume()
+//        numberOfCells = 0
     }
     
-    func isFiltering() -> Bool {
-        return searchController.isActive && !searchBarIsEmpty()
-    }
+    // MARK: For searchbar in table view
+//    func isFiltering() -> Bool {
+//        return searchController.isActive && !searchBarIsEmpty()
+//    }
 }
 
 extension TeamBuilderView: UICollectionViewDataSource {
@@ -407,44 +383,54 @@ extension TeamBuilderView: UICollectionViewDataSource {
         if section == 0 {
             print("first")
             return 5
-        } else if section == 1 {
+        } else /* if section == 1 */ {
             print("second")
             return 5
         }
-        else {
-            print("third")
-            return 4
-        }
+//        else {
+//            print("third")
+//            return 4
+//        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
-        print(numberOfCells)
-        if numberOfCells == 1 {
-//            cell.champImage.image = UIImage(named: "Aatrox-Icon")
-        }
-        if numberOfCells >= 10 {
-            print("second line working")
-            madeFirstLine += 1
-            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
-            cell.champBorder.layer.borderWidth = 0
-        }
+//        print(numberOfCells)
+//        if numberOfCells == 1 {
+////            cell.champImage.image = UIImage(named: "Aatrox-Icon")
+//        }
+//        if numberOfCells >= 10 {
+//            print("second line working")
+//            madeFirstLine += 1
+//            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+//            cell.champBorder.layer.borderWidth = 0
+//        }
         
-        else if numberOfCells == 5 {
-            
-            print("working")
-            madeFirstLine += 1
-            madeSecondLine += 1
+        if numberOfCells == 5 {
+//            madeFirstLine += 1
+//            madeSecondLine += 1
             cell.champBorder.backgroundColor = .clear
             cell.champBorder.layer.borderWidth = 0
         }
+//        else if allChampsArray.count > 0 {
+//            
+//            print("Count is:", allChampsArray.count)
+//            if numberOfCells < 4 {
+//                print("this far")
+//                cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row].name + "Icon"))
+//            }
+//            else {
+//                cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row - 2].name + "Icon"))
+//            }
+//        }
 
         numberOfCells += 1
        return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Cell Pressed")
+        print(allChampsArray.count)
     }
 }
 
@@ -458,10 +444,10 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
             return CGSize(width: collectionViewScale / 10, height: collectionViewScale / 5)
         }
 
-        if cellsMade >= 10 {
-            print("last cell")
-            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
-        }
+//        if cellsMade >= 10 {
+//            print("last cell")
+//            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
+//        }
         cellsMade += 1
         return CGSize(width: collectionViewScale / 5, height: collectionViewScale / 5)
     }
@@ -481,7 +467,7 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -506,9 +492,9 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
 extension TeamBuilderView: UITableViewDataSource {
     // Table View Rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFiltering() {
-            return filteredChampions.count
-        }
+//        if isFiltering() {
+//            return filteredChampions.count
+//        }
         return allChampsArray.count
     }
     
@@ -517,11 +503,11 @@ extension TeamBuilderView: UITableViewDataSource {
         // Create Cells one by one using this as a blueprint.
         let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChampionTableViewCell
         var champ: ChampionData
-        if isFiltering() {
-            champ = filteredChampions[indexPath.row]
-        } else {
-            champ = allChampsArray[indexPath.row]
-        }
+//        if isFiltering() {
+//            champ = filteredChampions[indexPath.row]
+//        } else {
+        champ = allChampsArray[indexPath.row]
+//        }
         
         cell.champName.text = champ.name
 //        print((allChampsArray[indexPath.row].name + "-Icon.png"))
@@ -570,24 +556,24 @@ extension TeamBuilderView: UITableViewDelegate {
 //        return nil
 //    }
 //}
-
-extension TeamBuilderView: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
-    func updateSearchResults(for searchController: UISearchController) {
-        // TODO
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
-    
-    func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
-        return searchController.searchBar.text?.isEmpty ?? true
-    }
-    
-    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-        filteredChampions = allChampsArray.filter({( champ : ChampionData) -> Bool in
-            return champ.name.lowercased().contains(searchText.lowercased())
-        })
-        
-        tableView.reloadData()
-    }
-}
+//
+//extension TeamBuilderView: UISearchResultsUpdating {
+//    // MARK: - UISearchResultsUpdating Delegate
+//    func updateSearchResults(for searchController: UISearchController) {
+//        // TODO
+//        filterContentForSearchText(searchController.searchBar.text!)
+//    }
+//
+//    func searchBarIsEmpty() -> Bool {
+//        // Returns true if the text is empty or nil
+//        return searchController.searchBar.text?.isEmpty ?? true
+//    }
+//
+//    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+//        filteredChampions = allChampsArray.filter({( champ : ChampionData) -> Bool in
+//            return champ.name.lowercased().contains(searchText.lowercased())
+//        })
+//
+//        tableView.reloadData()
+//    }
+//}
