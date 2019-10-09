@@ -36,6 +36,18 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         return collectionView
     }()
     
+    var itemCreationBackground: UIView = {
+        var view = UIView()
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -64,11 +76,20 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     }
     
     func setupUI() {
-        self.view.addSubview(itemBuilderLabel)
+        view.addSubview(itemBuilderLabel)
         NSLayoutConstraint.activate([
             itemBuilderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             itemBuilderLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
         ])
+        
+        view.addSubview(itemCreationBackground)
+        NSLayoutConstraint.activate([
+            itemCreationBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -480),
+            itemCreationBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            itemCreationBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            itemCreationBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            ])
+
     }
     
     //MARK: DELEGATE CALL
