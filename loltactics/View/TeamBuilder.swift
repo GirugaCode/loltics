@@ -8,6 +8,7 @@
 
 import Foundation
 
+// VIEW MODEL 
 class TeamBuilder {
 /*
      Given first three champs, find and return the Best team (9 champions) based on:
@@ -41,6 +42,8 @@ class TeamBuilder {
             }
             DispatchQueue.main.async {
                 self.countChamps()
+                NotificationCenter.default.post(name: Notification.Name("loadedChamps"), object: nil)
+
             }
         }
     }

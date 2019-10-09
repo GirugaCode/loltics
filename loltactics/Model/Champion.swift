@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: - ChampionValue
+// MARK: - Model For Champions
 struct ChampionData: Decodable {
     let id, key, name: String
     let origin, championClass: [String]
