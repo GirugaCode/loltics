@@ -8,63 +8,123 @@
 
 import UIKit
 
-class ItemBuilderView: UIViewController {
+class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     
+    
+    //MARK: PROPERTIES
+    var dummyItems = ["bfsword", "bloodthirster", "guardian angel", "zekes herald", "deathblade", "giant slayer","dsa","dsadsa","dsadsa"]
+    var data: [Int] = Array(0..<9)
     var items: Item = [:]
     var allItems: [ItemValue] = []
+    var viewModel = ItemViewModel()
     
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-         
-        // Hide the navigation bar on the this view controller
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
+    //MARK: UI COMPONENTS
+    var itemBuilderLabel: UILabel = {
+        var title = UILabel()
+        title.text = "Item Builder"
+        title.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 28)
+        title.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        title.textAlignment = .left
+        title.translatesAutoresizingMaskIntoConstraints = false
+        return title
+    }()
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        // Show the navigation bar on other view controllers
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
-    }
+    var collectionView: UICollectionView = {
+        var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let networklayer = NetworkLayer()
-//        networklayer.getItems { (itemsData) in
-//            print(itemsData)
-////            self.items = itemsData
-//        }
-
-        // Do any additional setup after loading the view.
-        loadItems()
-        view.backgroundColor = .clear
+        viewModel.delegate = self
+        viewModel.loadItems()
+        
+        setupCollectionView()
+        setupUI()
     }
     
-    func loadItems() {
-        TFTServices.shared.getItems { (itemGetResult) in
-            switch itemGetResult {
-            case let .success(itemData):
-                self.items = itemData
-//                 print(itemData)
-                
-                let sortedKeys = itemData.keys.sorted(by: >)
-                
-                for key in sortedKeys {
-                    // TODO: Key to find image
-                    if let obj = itemData[key] {
-                        self.allItems.insert(obj, at: 0)
-                    }
-                }
-                print(self.allItems)
-            case let .failure(error):
-                print(error)
-            }
-            DispatchQueue.main.async {
-                //self.shopifyCollectionView.reloadData()
-                print("Hello")
-            }
-        }
+    //MARK: SETUP UI
+    func setupCollectionView() {
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: collectionView.topAnchor),
+            view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+        ])
+        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.identifier)
+        collectionView.alwaysBounceVertical = true
+        collectionView.backgroundColor = .white
     }
+    
+    func setupUI() {
+        self.view.addSubview(itemBuilderLabel)
+        NSLayoutConstraint.activate([
+            itemBuilderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            itemBuilderLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+        ])
+    }
+    
+    //MARK: DELEGATE CALL
+    func itemCallFinished() {
+        collectionView.reloadData()
+    }
+}
+
+
+//MARK: Delegates and Datasource
+extension ItemBuilderView: UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+        return dummyItems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.identifier, for: indexPath) as! ItemCollectionViewCell
+        let data = dummyItems[indexPath.item]
+        return cell
+    }
+}
+
+extension ItemBuilderView: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Tapped Cell \(indexPath.row)")
+    }
+}
+
+extension ItemBuilderView: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.size.width / 5, height: 60)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 110, left: 50, bottom: 50, right: 50) //.zero
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+
 }
