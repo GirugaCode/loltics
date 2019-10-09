@@ -13,6 +13,7 @@
 		28095146231F133D001BD2DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28095144231F133D001BD2DF /* LaunchScreen.storyboard */; };
 		28095151231F133D001BD2DF /* loltacticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28095150231F133D001BD2DF /* loltacticsTests.swift */; };
 		2809515C231F133D001BD2DF /* loltacticsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2809515B231F133D001BD2DF /* loltacticsUITests.swift */; };
+		28703229234C441200931AF2 /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28703228234C441200931AF2 /* ItemCollectionViewCell.swift */; };
 		289D28DA233AB441006E2C37 /* MainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28D9233AB441006E2C37 /* MainTabBarView.swift */; };
 		289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */; };
 		289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289D28DD233AB828006E2C37 /* TeamBuilderView.swift */; };
@@ -24,6 +25,7 @@
 		289E208B233C35EC00B648EF /* NetworkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208A233C35EC00B648EF /* NetworkRoute.swift */; };
 		289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208C233C36AE00B648EF /* NetworkRequest.swift */; };
 		289E2090233C371400B648EF /* TFTServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208F233C371400B648EF /* TFTServices.swift */; };
+		28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4A23D234D49C80048092E /* ItemViewModel.swift */; };
 		F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50E8233D7CBF0087B3A1 /* Champion.swift */; };
 		F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */; };
 		F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */; };
@@ -59,6 +61,7 @@
 		28095157231F133D001BD2DF /* loltacticsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = loltacticsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2809515B231F133D001BD2DF /* loltacticsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loltacticsUITests.swift; sourceTree = "<group>"; };
 		2809515D231F133D001BD2DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		28703228234C441200931AF2 /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
 		289D28D9233AB441006E2C37 /* MainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarView.swift; sourceTree = "<group>"; };
 		289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemBuilderView.swift; sourceTree = "<group>"; };
 		289D28DD233AB828006E2C37 /* TeamBuilderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamBuilderView.swift; sourceTree = "<group>"; };
@@ -70,6 +73,7 @@
 		289E208A233C35EC00B648EF /* NetworkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRoute.swift; sourceTree = "<group>"; };
 		289E208C233C36AE00B648EF /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		289E208F233C371400B648EF /* TFTServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFTServices.swift; sourceTree = "<group>"; };
+		28E4A23D234D49C80048092E /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		F3FD50E8233D7CBF0087B3A1 /* Champion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Champion.swift; sourceTree = "<group>"; };
 		F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionTableViewCell.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 			children = (
 				289D28D9233AB441006E2C37 /* MainTabBarView.swift */,
 				289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */,
+				28703228234C441200931AF2 /* ItemCollectionViewCell.swift */,
 				289D28DD233AB828006E2C37 /* TeamBuilderView.swift */,
 				F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */,
 				F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */,
@@ -170,6 +175,7 @@
 		289D28D7233AB13C006E2C37 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				28E4A23D234D49C80048092E /* ItemViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -339,8 +345,10 @@
 				F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */,
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
 				F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */,
+				28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */,
 				289E2087233C358900B648EF /* NetworkResponse.swift in Sources */,
 				289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */,
+				28703229234C441200931AF2 /* ItemCollectionViewCell.swift in Sources */,
 				F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */,
 				289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */,
 				289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */,
