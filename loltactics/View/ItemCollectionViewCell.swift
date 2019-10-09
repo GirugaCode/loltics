@@ -11,7 +11,7 @@ import UIKit
 class ItemCollectionViewCell: UICollectionViewCell {
     
     //MARK: PROPERTIES
-    static var identifier: String = "ItemCell"
+    static var identifier: String = "ItemCollectionCell"
     
     //MARK: UI COMPONENTS
     var container: UIView = {

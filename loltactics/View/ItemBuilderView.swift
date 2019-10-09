@@ -12,7 +12,7 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     
     
     //MARK: PROPERTIES
-    var baseItems = ["bfsword", "giantsbelt", "needlesslylargerod", "sparringgloves", "chainvest", "negatroncloak","recurvebow","tearofthegoddess","spatula"]
+    var baseItems = ["recurvebow", "giantsbelt", "needlesslylargerod", "chainvest", "sparringgloves", "negatroncloak","bfsword","tearofthegoddess","spatula"]
     var data: [Int] = Array(0..<9)
     var viewModel = ItemViewModel()
     
@@ -46,6 +46,12 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         return view
     }()
     
+    var tableView: UITableView = {
+        var tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,6 +59,7 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         viewModel.loadItems()
         
         setupCollectionView()
+        setupTableView()
         setupUI()
     }
     
@@ -71,6 +78,24 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         collectionView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: ItemCollectionViewCell.identifier)
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .white
+    }
+    
+    func setupTableView() {
+        // Add to Table View to View
+        itemCreationBackground.addSubview(tableView)
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: itemCreationBackground.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: itemCreationBackground.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: itemCreationBackground.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: itemCreationBackground.bottomAnchor)
+        ])
+        
+        // Register Table View Cells
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(ItemTableViewCell.self, forCellReuseIdentifier: ItemTableViewCell.identifier)
+
     }
     
     func setupUI() {
@@ -144,6 +169,29 @@ extension ItemBuilderView: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
+    }
+    
+}
+
+extension ItemBuilderView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return baseItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ItemTableViewCell.identifier, for: indexPath) as! ItemTableViewCell
+        return cell
+    }
+}
+
+extension ItemBuilderView: UITableViewDelegate {
+    
+    //Table View Cell Styling
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        print("Deselected")
     }
     
 }

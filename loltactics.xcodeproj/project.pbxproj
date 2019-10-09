@@ -26,6 +26,7 @@
 		289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208C233C36AE00B648EF /* NetworkRequest.swift */; };
 		289E2090233C371400B648EF /* TFTServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208F233C371400B648EF /* TFTServices.swift */; };
 		28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4A23D234D49C80048092E /* ItemViewModel.swift */; };
+		28E4A240234D9CB90048092E /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */; };
 		F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50E8233D7CBF0087B3A1 /* Champion.swift */; };
 		F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */; };
 		F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */; };
@@ -74,6 +75,7 @@
 		289E208C233C36AE00B648EF /* NetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		289E208F233C371400B648EF /* TFTServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFTServices.swift; sourceTree = "<group>"; };
 		28E4A23D234D49C80048092E /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
+		28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
 		F3FD50E8233D7CBF0087B3A1 /* Champion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Champion.swift; sourceTree = "<group>"; };
 		F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionTableViewCell.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			children = (
 				289D28D9233AB441006E2C37 /* MainTabBarView.swift */,
 				289D28DB233AB59C006E2C37 /* ItemBuilderView.swift */,
+				28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */,
 				28703228234C441200931AF2 /* ItemCollectionViewCell.swift */,
 				289D28DD233AB828006E2C37 /* TeamBuilderView.swift */,
 				F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */,
@@ -344,6 +347,7 @@
 				289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */,
 				F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */,
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
+				28E4A240234D9CB90048092E /* ItemTableViewCell.swift in Sources */,
 				F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */,
 				28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */,
 				289E2087233C358900B648EF /* NetworkResponse.swift in Sources */,
