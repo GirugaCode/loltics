@@ -14,7 +14,19 @@ class TeamBuilder {
      • most different classes we can have.
 */
     var champs: [ChampionData] = []
-    var champClasses: [ChampClass] = []
+    
+    var classes: [ChampClass] = [] // JUST ONE ITEM (ALL THE CLASSES 🤣) TODO FIX
+    
+//    var classes: [Origin] = [] // Array of all the classes
+    
+    var classesNeeded: [String: Int] = [:] // ['Assassin': 9, ... ]
+    
+    var champClassAssignement: [String: [ChampionData]] = [:] // ['Yorlde': Veigar, ... ]
+    
+    func buildModel() { // Fills all the variables above
+        loadChamps()
+        pullClasses()
+    }
     
     func loadChamps() {
         TFTServices.shared.getChamps() { (champGetResult) in
@@ -37,21 +49,77 @@ class TeamBuilder {
         print(champs.count)
     }
     
-    func buildClassDict() {
+    func pullClasses() {
         TFTServices.shared.getChampsClass { (champClassGetResult) in
             switch champClassGetResult {
                 
             case let .success(champClassData):
-                print(champClassData)
-                self.champClasses.append(champClassData)
+//                print(champClassData)
+                
+                // TODO: Get aroudn the array method without initilizers.
+                self.classes = champClassData
+                
             case let .failure(error):
                 print(error)
                 
             }
             DispatchQueue.main.async {
-                print("HEREEE",self.champClasses)
+                self.pullOrigins()
             }
         }
     }
+    
+    func pullOrigins() {
+        TFTServices.shared.getChampsClass { (champClassGetResult) in
+            switch champClassGetResult {
+                
+            case let .success(champClassData):
+                print()
+//                print(champClassData)
+                
+                // TODO: Get aroudn the array method without initilizers.
+                self.classes += champClassData
+            case let .failure(error):
+                print(error)
+                
+            }
+            DispatchQueue.main.async {
+                self.fillClassNeededArray()
+            }
+        }
+    }
+    
+    func fillClassNeededArray() {
+        for champClass in classes {
+            var highest = 0
+            
+            for bonus in champClass.bonuses {
+
+                if highest < bonus.needed {
+                    highest = bonus.needed
+                }
+            }
+            print("\(champClass.name) bonuses:", champClass.bonuses)
+            classesNeeded[champClass.name] = highest
+        }
+        print(classesNeeded)
+    }
+    
+//
+//    func sortChampsToClasses() {
+//        for champClass in classes {
+//            champClassAssignement[champClass.name.lowercased()] = []
+//        }
+//        print(champClassAssignement.keys)
+//        for champ in champs {
+//            for origin in champ.origin {
+//                print("Origin:", origin)
+//                champClassAssignement[origin.lowercased()]!.append(champ)
+//            }
+//        }
+//
+//        print(champClassAssignement.keys.count)
+//    }
+
     
 }

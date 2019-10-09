@@ -75,7 +75,7 @@ struct TFTServices {
         }
     }
     
-    func getChampsClass(_ completion: @escaping(Result<ChampClass>) -> ()) {
+    func getChampsClass(_ completion: @escaping(Result<[ChampClass]>) -> ()) {
         do {
             let request = try NetworkRequest.configureHTTPRequest(from: .championClass, with: nil)
             
@@ -86,10 +86,55 @@ struct TFTServices {
                     let result = NetworkResponse.handleNetworkResponse(for: response)
                     switch result {
                     case .success:
-                        let result = try? JSONDecoder().decode(ChampClass.self, from: unwrappedData)
-                        guard let champClass = result else { return }
+                        let result = try? JSONDecoder().decode(ChampOrigin.self, from: unwrappedData)
+                        guard let champs = result else { return }
                         DispatchQueue.main.async {
-                            completion(Result.success(champClass))
+                            var allChampsArray: [ChampClass] = []
+                            let sortedKeys = champs.keys.sorted(by: >)
+                            
+                            for key in sortedKeys {
+                                if let obj = champs[key] {
+                                    allChampsArray.insert(obj, at: 0)
+                                }
+                            }
+                            completion(Result.success(allChampsArray))
+                        }
+                    case .failure:
+                        DispatchQueue.main.async {
+                            completion(Result.failure(NetworkError.decodingFailed))
+                        }
+                    }
+                }
+                }.resume()
+            
+        } catch {
+            completion(Result.failure(NetworkError.badRequest))
+        }
+    }
+    
+    func getChampsOrigin(_ completion: @escaping(Result<[ChampClass]>) -> ()) {
+        do {
+            let request = try NetworkRequest.configureHTTPRequest(from: .championOrigin, with: nil)
+            
+            urlSession.dataTask(with: request) { (data, res, err) in
+                
+                if let response = res as? HTTPURLResponse, let unwrappedData = data {
+                    
+                    let result = NetworkResponse.handleNetworkResponse(for: response)
+                    switch result {
+                    case .success:
+                        let result = try? JSONDecoder().decode(ChampOrigin.self, from: unwrappedData)
+                        guard let champs = result else { return }
+                        DispatchQueue.main.async {
+                            var allChampsArray: [ChampClass] = []
+                            let sortedKeys = champs.keys.sorted(by: >)
+                            
+                            for key in sortedKeys {
+                                if let obj = champs[key] {
+                                    allChampsArray.insert(obj, at: 0)
+                                }
+                            }
+                            completion(Result.success(allChampsArray))
                         }
                     case .failure:
                         DispatchQueue.main.async {

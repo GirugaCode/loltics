@@ -176,8 +176,8 @@ class TeamBuilderView: UIViewController {
         makeTabBackground()
         downloadAllChamps()
         
-        teamBuilder.loadChamps()
-        teamBuilder.buildClassDict()
+        teamBuilder.buildModel()
+//        teamBuilder.buildClassDict()
 //        teamBuilder.countChamps()
     }
     
