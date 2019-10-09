@@ -52,6 +52,24 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         return tableView
     }()
     
+    var emptyItemView: UIImageView = {
+        var image = UIImageView()
+        image.image = #imageLiteral(resourceName: "item-view-empty-state")
+        image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    var emptyItemLabel: UILabel = {
+        var label = UILabel()
+        label.text = "Select Items to get started!"
+        label.font = UIFont(name: "AvenirNext-Bold", size: 18)
+        label.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
+        label.textAlignment = .left
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,18 +101,30 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     func setupTableView() {
         // Add to Table View to View
         itemCreationBackground.addSubview(tableView)
+        tableView.addSubview(emptyItemView)
+        tableView.addSubview(emptyItemLabel)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: itemCreationBackground.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: itemCreationBackground.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: itemCreationBackground.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: itemCreationBackground.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: itemCreationBackground.bottomAnchor),
+            
+            emptyItemView.widthAnchor.constraint(equalToConstant: 232),
+            emptyItemView.heightAnchor.constraint(equalToConstant: 232),
+            emptyItemView.topAnchor.constraint(equalTo: tableView.topAnchor, constant: 45),
+            emptyItemView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 85),
+            
+            emptyItemLabel.topAnchor.constraint(equalTo: emptyItemView.bottomAnchor, constant: 15),
+            emptyItemLabel.leadingAnchor.constraint(equalTo: tableView.leadingAnchor, constant: 85)
+            
         ])
         
         // Register Table View Cells
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ItemTableViewCell.self, forCellReuseIdentifier: ItemTableViewCell.identifier)
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
 
     }
     
@@ -112,7 +142,6 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
             itemCreationBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             itemCreationBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
         ])
-        
     }
     
     //MARK: DELEGATE CALL
@@ -144,6 +173,8 @@ extension ItemBuilderView: UICollectionViewDelegate {
         print("Tapped Cell \(indexPath.row)")
         selectedItems.append(baseItems[indexPath.row])
         tableView.reloadData()
+        emptyItemView.isHidden = true
+        emptyItemLabel.isHidden = true
     }
 }
 
@@ -197,6 +228,10 @@ extension ItemBuilderView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedItems.remove(at: indexPath.row)
         tableView.reloadData()
+        if selectedItems.count == 0 {
+            emptyItemView.isHidden = false
+            emptyItemLabel.isHidden = false
+        }
     }
     
 }

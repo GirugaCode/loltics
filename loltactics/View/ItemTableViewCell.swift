@@ -29,7 +29,6 @@ class ItemTableViewCell: UITableViewCell {
         label.text = "Spatula"
         label.font = UIFont(name: "AvenirNext-Bold", size: UIScreen.main.bounds.height / 28) // Size to make it scalable (supposed to be around 33 onn iphone x)
         label.textColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
-        label.backgroundColor = nil
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

@@ -48,7 +48,7 @@ class MainTabBarView: UITabBarController {
         devAboutView.tabBarItem.selectedImage = #imageLiteral(resourceName: "About-icon-Active")
         
         tabBar.tintColor = #colorLiteral(red: 0.4509803922, green: 0.4352941176, blue: 0.8941176471, alpha: 1)
-        tabBar.backgroundColor = .clear
+        tabBar.backgroundColor = .white
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         viewControllers = [itemBuilderView, teamBuilderView, devAboutView]

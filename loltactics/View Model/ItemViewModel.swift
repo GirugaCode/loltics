@@ -30,9 +30,6 @@ class ItemViewModel: NSObject {
                 let sortedKeys = itemData.keys.sorted(by: >)
                 for key in sortedKeys {
                     if let obj = itemData[key] {
-//                        print(obj.buildsFrom)
-//                        print(obj.itemBonus)
-//                        print(obj.stats)
 
                         self.allItems.insert(obj, at: 0)
                     }
