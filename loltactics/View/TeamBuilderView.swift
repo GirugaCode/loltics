@@ -175,11 +175,29 @@ class TeamBuilderView: UIViewController {
 //        view.heightAnchor.constraint(equalToConstant: 267/2).isActive = true
 //        view.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor).isActive = true
 //        view.centerYAnchor.constraint(equalTo: collectionView.centerYAnchor).isActive = true
-
+        
         emptyStateImage.frame = CGRect(x: (view.bounds.width / 2) - (90), y: 90, width: 242/1.3, height: 267/1.3)
         
         // Hide the navigation bar on the this view controller
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    var emptyStateImageWifi = UIImageView(image: #imageLiteral(resourceName: "Blitz-art"))
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if teamBuilder.champs.count == 0 {
+            teamBuilder.loadChamps()
+        } else {
+            tableView.reloadData()
+        }
+        view.addSubview(emptyStateImageWifi)
+        
+        emptyStateImageWifi.translatesAutoresizingMaskIntoConstraints = false
+        emptyStateImageWifi.widthAnchor.constraint(equalToConstant: 232).isActive = true
+        emptyStateImageWifi.heightAnchor.constraint(equalToConstant: 232).isActive = true
+        emptyStateImageWifi.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 72).isActive = true
+        emptyStateImageWifi.topAnchor.constraint(equalTo: view.topAnchor, constant: 332).isActive = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -208,6 +226,8 @@ class TeamBuilderView: UIViewController {
     
     @objc func reloadTableView() {
         tableView.reloadData()
+        
+        emptyStateImageWifi.isHidden = true
     }
     
     func setupLayout() {

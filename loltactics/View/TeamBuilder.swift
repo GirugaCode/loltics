@@ -35,7 +35,7 @@ class TeamBuilder {
                 
             case let .success(champData):
                 self.champs = champData
-                
+                print(self.champs)
             case let .failure(error):
                 print(error)
 
