@@ -101,6 +101,7 @@ class TeamBuilderView: UIViewController {
         var button = UIButton()
         button.setTitle("1", for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampOne), for: .touchUpInside)
         return button
     }()
     
@@ -108,6 +109,7 @@ class TeamBuilderView: UIViewController {
         var button = UIButton()
         button.setTitle("2", for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampTwo), for: .touchUpInside)
         return button
     }()
     
@@ -115,6 +117,7 @@ class TeamBuilderView: UIViewController {
         var button = UIButton()
         button.setTitle("3", for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)
+        button.addTarget(self, action: #selector(removeChampThree), for: .touchUpInside)
         return button
     }()
     
@@ -333,6 +336,119 @@ class TeamBuilderView: UIViewController {
 //            ])
     }
     
+    @objc func removeChampOne() {
+        if championsSelected.count > 0 {
+            championsRecommended.remove(at: 0)
+            championsSelected.remove(at: 0)
+            
+            
+            collectionView.reloadData()
+            
+            if championsSelected.count == 0 {
+                selectionOne = false
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 1 {
+                selectionOne = true
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    @objc func removeChampTwo() {
+        if championsSelected.count > 1 {
+            championsRecommended.remove(at: 1)
+            championsSelected.remove(at: 1)
+            
+            
+            collectionView.reloadData()
+
+            if championsSelected.count == 1 {
+                selectionOne = true
+                selectionTwo = false
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    @objc func removeChampThree() {
+        if championsSelected.count == 3 {
+            championsRecommended.remove(at: 2)
+            championsSelected.remove(at: 2)
+            
+            
+            collectionView.reloadData()
+            
+            if championsSelected.count == 2 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = false
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectThree.setImage(UIImage(), for: .normal)
+            } else if championsSelected.count == 3 {
+                selectionOne = true
+                selectionTwo = true
+                selectionThree = true
+                
+                champSelectOne.setImage(UIImage(named:(championsSelected[0] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[1] + "-Icon")), for: .normal)
+                champSelectTwo.setImage(UIImage(named:(championsSelected[2] + "-Icon")), for: .normal)
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     /// GET REQUEST to https://solomid-resources.s3.amazonaws.com/blitz/tft/data/champions.json for champs JSON
     func downloadAllChamps() {
@@ -357,9 +473,12 @@ class TeamBuilderView: UIViewController {
                     }
                     print("All champs array count", self.allChampsArray.count)
                     self.tableView.reloadData()
-                    
-                    // MARK: Might need to delete.
-                    self.collectionView.reloadData()
+//
+//                    for count in 0...2 {
+//                        self.championsRecommended.append(self.allChampsArray[count])
+//                    }
+//                    // MARK: Might need to delete.
+//                    self.collectionView.reloadData()
                 }
             } catch {
                 print("Didn't work")
@@ -380,52 +499,27 @@ class TeamBuilderView: UIViewController {
 
 extension TeamBuilderView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            print("first")
-            return 5
-        } else /* if section == 1 */ {
-            print("second")
-            return 5
-        }
+//        if section == 0 {
+//            print("first")
+//            return 5
+//        } else /* if section == 1 */ {
+//            print("second")
+//            return 5
+//        }
 //        else {
 //            print("third")
 //            return 4
 //        }
+        return championsRecommended.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! ChampionCollectionViewCell
-//        print(numberOfCells)
-//        if numberOfCells == 1 {
-////            cell.champImage.image = UIImage(named: "Aatrox-Icon")
-//        }
-//        if numberOfCells >= 10 {
-//            print("second line working")
-//            madeFirstLine += 1
-//            cell.champBorder.backgroundColor = #colorLiteral(red: 0.176453799, green: 0.1764799953, blue: 0.1764449179, alpha: 1)
-//            cell.champBorder.layer.borderWidth = 0
-//        }
-        
-        if numberOfCells == 5 {
-//            madeFirstLine += 1
-//            madeSecondLine += 1
-            cell.champBorder.backgroundColor = .clear
-            cell.champBorder.layer.borderWidth = 0
+        if championsRecommended.count > 0 {
+            cell.champImage.image = UIImage(named: (championsRecommended[indexPath.row].name + "-Icon"))
         }
-//        else if allChampsArray.count > 0 {
-//            
-//            print("Count is:", allChampsArray.count)
-//            if numberOfCells < 4 {
-//                print("this far")
-//                cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row].name + "Icon"))
-//            }
-//            else {
-//                cell.champImage.image = UIImage(named: (allChampsArray[indexPath.row - 2].name + "Icon"))
-//            }
-//        }
-
-        numberOfCells += 1
+        
        return cell
     }
     
@@ -438,36 +532,25 @@ extension TeamBuilderView: UICollectionViewDataSource {
 
 extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if  cellsMade == 5 {
-            print("diffenretn")
-            cellsMade = 6
-            return CGSize(width: collectionViewScale / 10, height: collectionViewScale / 5)
-        }
-
-//        if cellsMade >= 10 {
-//            print("last cell")
-//            return CGSize(width: collectionViewScale / 4, height: collectionViewScale / 10)
-//        }
-        cellsMade += 1
         return CGSize(width: collectionViewScale / 5, height: collectionViewScale / 5)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         print("called")
-        if section == 0 {
-            return UIEdgeInsets(top: 0, left: 0, bottom: collectionViewScale / -20, right: 0)
-            
-        }
-        if section == 2 {
-            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
-
-        }
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//        if section == 0 {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//
+//        }
+//        if section == 2 {
+//            return UIEdgeInsets(top: collectionViewScale / 40, left: 0, bottom: 0, right: 0)
+//
+//        }
+//        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -516,24 +599,40 @@ extension TeamBuilderView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Tapped")
-        if selectionOne == false {
-            selectionOne = true
-            championsSelected.append(allChampsArray[indexPath.row].name)
-            champSelectOne.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
-        } else if selectionTwo == false {
-            selectionTwo = true
-            championsSelected.append(allChampsArray[indexPath.row].name)
-            champSelectTwo.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
-        }
-        else if selectionThree == false {
-            selectionThree = true
-            championsSelected.append(allChampsArray[indexPath.row].name)
-            champSelectThree.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
-        } else {
-            print("full")
-        }
+//        print("Tapped")
         
+        var canContinue = true
+        
+        // Check if champ already selected
+        for string in championsSelected {
+            if allChampsArray[indexPath.row].name == string {
+                canContinue = false
+            }
+        }
+        if canContinue == true {
+            if selectionOne == false {
+                selectionOne = true
+                championsSelected.append(allChampsArray[indexPath.row].name)
+                champSelectOne.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(allChampsArray[indexPath.row])
+                collectionView.reloadData()
+            } else if selectionTwo == false {
+                selectionTwo = true
+                championsSelected.append(allChampsArray[indexPath.row].name)
+                champSelectTwo.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(allChampsArray[indexPath.row])
+                collectionView.reloadData()
+            }
+            else if selectionThree == false {
+                selectionThree = true
+                championsSelected.append(allChampsArray[indexPath.row].name)
+                champSelectThree.setImage(UIImage(named: (allChampsArray[indexPath.row].name + "-Icon")), for: .normal)
+                championsRecommended.append(allChampsArray[indexPath.row])
+                collectionView.reloadData()
+            } else {
+                print("full")
+            }
+        }
     }
 }
 
