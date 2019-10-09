@@ -142,6 +142,8 @@ extension ItemBuilderView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Tapped Cell \(indexPath.row)")
+        selectedItems.append(baseItems[indexPath.row])
+        tableView.reloadData()
     }
 }
 
@@ -175,11 +177,13 @@ extension ItemBuilderView: UICollectionViewDelegateFlowLayout {
 
 extension ItemBuilderView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return baseItems.count
+        return selectedItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ItemTableViewCell.identifier, for: indexPath) as! ItemTableViewCell
+        cell.itemName.text = selectedItems[indexPath.row]
+        cell.itemImage.image = UIImage(named: selectedItems[indexPath.row])
         return cell
     }
 }
@@ -190,8 +194,9 @@ extension ItemBuilderView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
     }
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        print("Deselected")
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedItems.remove(at: indexPath.row)
+        tableView.reloadData()
     }
     
 }
