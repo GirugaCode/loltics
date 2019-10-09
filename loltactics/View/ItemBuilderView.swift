@@ -12,10 +12,8 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     
     
     //MARK: PROPERTIES
-    var dummyItems = ["bfsword", "bloodthirster", "guardian angel", "zekes herald", "deathblade", "giant slayer","dsa","dsadsa","dsadsa"]
+    var baseItems = ["bfsword", "giantsbelt", "needlesslylargerod", "sparringgloves", "chainvest", "negatroncloak","recurvebow","tearofthegoddess","spatula"]
     var data: [Int] = Array(0..<9)
-    var items: Item = [:]
-    var allItems: [ItemValue] = []
     var viewModel = ItemViewModel()
     
     
@@ -88,8 +86,8 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
             itemCreationBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
             itemCreationBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
             itemCreationBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
-            ])
-
+        ])
+        
     }
     
     //MARK: DELEGATE CALL
@@ -104,13 +102,13 @@ extension ItemBuilderView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return dummyItems.count
+        return baseItems.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ItemCollectionViewCell.identifier, for: indexPath) as! ItemCollectionViewCell
-        let data = dummyItems[indexPath.item]
+        cell.itemImageView.image = UIImage(named: baseItems[indexPath.row])
         return cell
     }
 }
@@ -123,29 +121,29 @@ extension ItemBuilderView: UICollectionViewDelegate {
 }
 
 extension ItemBuilderView: UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.size.width / 5, height: 60)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 110, left: 50, bottom: 50, right: 50) //.zero
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-
+    
 }
