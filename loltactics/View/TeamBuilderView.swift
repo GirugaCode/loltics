@@ -9,6 +9,7 @@
 import UIKit
 
 class TeamBuilderView: UIViewController {
+    let teamBuilder = TeamBuilder()
     
     /// TOP LABEL
     var teamLabel: UITextView = {
@@ -167,16 +168,17 @@ class TeamBuilderView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = #colorLiteral(red: 0.9607108235, green: 0.9608257413, blue: 0.9606716037, alpha: 1)
+        
         setupLayout()
         setupTableView()
         setupChampSelections()
-        
         makeTabBackground()
-        
         downloadAllChamps()
-
+        
+        teamBuilder.loadChamps()
+        teamBuilder.buildClassDict()
+//        teamBuilder.countChamps()
     }
     
     func setupLayout() {
@@ -314,7 +316,7 @@ class TeamBuilderView: UIViewController {
         selectionsStack.distribution = .fillEqually
         
         view.addSubview(selectionsStack)
-        print("x:\(view.bounds.width / 2), y: \(view.bounds.height * 0.06)")
+//        print("x:\(view.bounds.width / 2), y: \(view.bounds.height * 0.06)")
 //        selectionsStack.frame = CGRect(x: view.bounds.width / 2, y: view.bounds.height * 0.06, width: 100, height: 50)
         
         selectionsStack.translatesAutoresizingMaskIntoConstraints = false
@@ -471,7 +473,7 @@ class TeamBuilderView: UIViewController {
                             self.allChampsArray.insert(obj, at: 0)
                         }
                     }
-                    print("All champs array count", self.allChampsArray.count)
+//                    print("All champs array count", self.allChampsArray.count)
                     self.tableView.reloadData()
 //
 //                    for count in 0...2 {
@@ -524,7 +526,7 @@ extension TeamBuilderView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(allChampsArray.count)
+        print("Cell tapped")
     }
 }
 
@@ -536,7 +538,7 @@ extension TeamBuilderView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        print("called")
+//        print("called")
 //        if section == 0 {
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 //

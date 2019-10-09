@@ -57,13 +57,13 @@ class ItemBuilderView: UIViewController {
                         self.allItems.insert(obj, at: 0)
                     }
                 }
-                print(self.allItems)
+//                print(self.allItems)
             case let .failure(error):
                 print(error)
             }
             DispatchQueue.main.async {
                 //self.shopifyCollectionView.reloadData()
-                print("Hello")
+//                print("Hello")
             }
         }
     }
