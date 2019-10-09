@@ -36,6 +36,18 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         return collectionView
     }()
     
+    var selectionsBackground: UIView = {
+        var view = UIView()
+        view.layer.shadowOpacity = 1
+        view.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.26).cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOffset = CGSize(width: 0.0, height: -4.0)
+        view.layer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        view.layer.cornerRadius = UIScreen.main.bounds.width / 27.6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,6 +59,24 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
     }
     
     //MARK: SETUP UI
+    
+    func setupUI() {
+        view.addSubview(itemBuilderLabel)
+        NSLayoutConstraint.activate([
+            itemBuilderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            itemBuilderLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+        ])
+        
+        view.addSubview(selectionsBackground)
+        NSLayoutConstraint.activate([
+            selectionsBackground.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: -480),
+            selectionsBackground.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+            selectionsBackground.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+            selectionsBackground.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        ])
+        
+    }
+
     func setupCollectionView() {
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -63,13 +93,6 @@ class ItemBuilderView: UIViewController, ItemViewModelDelegate {
         collectionView.backgroundColor = .white
     }
     
-    func setupUI() {
-        self.view.addSubview(itemBuilderLabel)
-        NSLayoutConstraint.activate([
-            itemBuilderLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            itemBuilderLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-        ])
-    }
     
     //MARK: DELEGATE CALL
     func itemCallFinished() {
@@ -102,29 +125,29 @@ extension ItemBuilderView: UICollectionViewDelegate {
 }
 
 extension ItemBuilderView: UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.size.width / 5, height: 60)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 110, left: 50, bottom: 50, right: 50) //.zero
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20
     }
-
+    
 }
