@@ -18,11 +18,13 @@ class TeamBuilder {
     
     var classes: [ChampClass] = [] // JUST ONE ITEM (ALL THE CLASSES 🤣) TODO FIX
     
-//    var classes: [Origin] = [] // Array of all the classes
-    
     var classesNeeded: [String: Int] = [:] // ['Assassin': 9, ... ]
     
+    var teamClassNeeded: [Int: [String]] = [3: [], 6: [], 9: [], 2: [], 1: [], 4: []] // [3: ["Elementalist", "Pirate"], 2:...
+    
     var champClassAssignement: [String: [ChampionData]] = [:] // ['Yorlde': Veigar, ... ]
+    
+    var champsClass: [String: [String]] = [:] // ['Aatrox' : ['Demon', 'BladeMaster'], 'Yasuo':['Exile','BladeMaster']...
     
     func buildModel() { // Fills all the variables above
         loadChamps()
@@ -62,7 +64,7 @@ class TeamBuilder {
                 
                 // TODO: Get aroudn the array method without initilizers.
                 self.classes = champClassData
-                print("pulled classes", self.classes)
+//                print("pulled classes", self.classes)
                 
             case let .failure(error):
                 print(error)
@@ -75,16 +77,15 @@ class TeamBuilder {
     }
     
     func pullOrigins() {
-        TFTServices.shared.getChampsClass { (champClassGetResult) in
+        TFTServices.shared.getChampsOrigin { (champClassGetResult) in
             switch champClassGetResult {
                 
             case let .success(champClassData):
-                print()
-//                print(champClassData)
+//                print("These should be the origins:",champClassData[0].name)
                 
                 // TODO: Get aroudn the array method without initilizers.
                 self.classes += champClassData
-                print("pulled origins", self.classes)
+//                print("pulled origins", self.classes)
                 
             case let .failure(error):
                 print(error)
@@ -101,37 +102,90 @@ class TeamBuilder {
     
     // Create all the data arrays.
     func fillClassNeededArray() {
-        print("filling classes array")
+//        print("filling classes array")
         for champClass in classes {
             var highest = 0
-            
+            print(champClass.name)
             for bonus in champClass.bonuses {
 
                 if highest < bonus.needed {
                     highest = bonus.needed
+//                    teamClassNeeded[highest] = []
+//                    print(teamClassNeeded)
                 }
             }
-            print("\(champClass.name) bonuses:", champClass.bonuses)
+//            print("\(champClass.name) bonuses:", champClass.bonuses)
+            teamClassNeeded[highest]!.append(champClass.name)
+            print(teamClassNeeded)
             classesNeeded[champClass.name] = highest
         }
-        print(classesNeeded)
+//        print(classesNeeded)
+        sortChampsToClasses()
     }
     
-//
-//    func sortChampsToClasses() {
-//        for champClass in classes {
-//            champClassAssignement[champClass.name.lowercased()] = []
-//        }
+
+    func sortChampsToClasses() {
+        for champClass in classes {
+            champClassAssignement[champClass.name.lowercased()] = []
+        }
 //        print(champClassAssignement.keys)
-//        for champ in champs {
-//            for origin in champ.origin {
-//                print("Origin:", origin)
-//                champClassAssignement[origin.lowercased()]!.append(champ)
+        for champ in champs {
+            champsClass[champ.name] = []
+            for origin in champ.origin {
+//                print("Champ:", champ, "Origin:", origin)
+                champClassAssignement[origin.lowercased()]!.append(champ)
+                champsClass[champ.name]!.append(origin)
+            }
+            // TODO: The same for classes
+            for championClass in champ.championClass {
+                //                print("Champ:", champ, "Origin:", origin)
+                champClassAssignement[championClass.lowercased()]!.append(champ)
+                champsClass[champ.name]!.append(championClass)
+            }
+        }
+        
+
+//        print(champClassAssignement.keys.count, champClassAssignement)
+        for key in champClassAssignement.keys {
+            print(key, champClassAssignement[key]!.count)
+        }
+        
+//        print(champsClass)
+        
+        buildATeam(starters: [champs[0], champs[1], champs[2]])
+    }
+    
+    func buildATeam(starters: [ChampionData]) {
+        var team: [ChampionData] = []
+        
+        var teamClasses: [String] = []
+        
+        var slots = 9
+        
+        if starters.count > 3 {
+            // TODO: Throw error if too many champs given
+            print("Too many")
+        } else {
+            
+            // Adding the base Team
+            for starter in starters {
+                print(champsClass[starter.name])
+                team.append(starter) // Appending selected champ to the team
+                teamClasses += (champsClass[starter.name]!) // Adding the must have champion's classes
+                slots -= 1
+            }
+            // TODO: remove duplicate classes
+            
+            // TODO: Find the next fasts builds you can add.
+//            print(teamClassNeededs)
+//            for teamClass in teamClasses {
+//                teamClassNeeded[classesNeeded[teamClass]!] = teamClass
 //            }
-//        }
-//
-//        print(champClassAssignement.keys.count)
-//    }
+            
+            print(teamClasses)
+            print(teamClassNeeded)
+        }
+    }
 
     
 }

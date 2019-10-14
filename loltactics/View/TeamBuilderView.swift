@@ -74,6 +74,9 @@ class TeamBuilderView: UIViewController {
         return view
     }()
     
+    // ViewdidLoad called at least once
+    var viewDidLoaded = false
+    
     
     //    let searchController = UISearchController(searchResultsController: nil)
     
@@ -186,11 +189,15 @@ class TeamBuilderView: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if teamBuilder.champs.count == 0 {
+        
+        if teamBuilder.champs.count == 0 && viewDidLoaded == true {
             teamBuilder.loadChamps()
         } else {
             tableView.reloadData()
         }
+        
+        viewDidLoaded = true
+        
         view.addSubview(emptyStateImageWifi)
         
         emptyStateImageWifi.translatesAutoresizingMaskIntoConstraints = false
