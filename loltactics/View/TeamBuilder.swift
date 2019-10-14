@@ -162,6 +162,10 @@ class TeamBuilder {
         
         var slots = 9
         
+        var builderTeam: [String:Int] = [:]
+        
+        var highest: (String, Int) = ("Classname", 0)
+        
         if starters.count > 3 {
             // TODO: Throw error if too many champs given
             print("Too many")
@@ -169,21 +173,39 @@ class TeamBuilder {
             
             // Adding the base Team
             for starter in starters {
-                print(champsClass[starter.name])
+//                print(champsClass[starter.name])
                 team.append(starter) // Appending selected champ to the team
                 teamClasses += (champsClass[starter.name]!) // Adding the must have champion's classes
+                
                 slots -= 1
             }
+            
+            for c in teamClasses {
+                builderTeam[c] = 0
+            }
+            
+            for starter in starters {
+                for x in champsClass[starter.name]! /* the champs's classes + origins */ {
+                    builderTeam[x]! += 1
+                    if builderTeam[x]! > highest.1 {
+                        highest = (x, builderTeam[x]!)
+                    }
+                }
+            }
+//            print(builderTeam)
             // TODO: remove duplicate classes
             
             // TODO: Find the next fasts builds you can add.
-//            print(teamClassNeededs)
-//            for teamClass in teamClasses {
-//                teamClassNeeded[classesNeeded[teamClass]!] = teamClass
-//            }
             
-            print(teamClasses)
-            print(teamClassNeeded)
+//            print(highest)
+            for i in 0...slots {
+                // using most popular class, find the next champ.
+                let nextOptions = champClassAssignement[highest.0.lowercased()]
+                print(nextOptions)
+            }
+            
+//            print(teamClasses)
+//            print(teamClassNeeded)
         }
     }
 
