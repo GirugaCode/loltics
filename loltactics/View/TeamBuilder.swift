@@ -35,21 +35,22 @@ class TeamBuilder {
                 
             case let .success(champData):
                 self.champs = champData
-                print(self.champs)
+//                print(self.champs)
             case let .failure(error):
                 print(error)
 
             }
             DispatchQueue.main.async {
-                self.countChamps()
-                NotificationCenter.default.post(name: Notification.Name("loadedChamps"), object: nil)
+                self.countChamps() // prints the number of champs
+                
+                self.pullClasses() // this calls to the pullOrigins() inside
 
             }
         }
     }
     
     func countChamps() {
-        print(champs.count)
+        print("Number of champs:",champs.count, " == 57?")
     }
     
     func pullClasses() {
@@ -61,6 +62,7 @@ class TeamBuilder {
                 
                 // TODO: Get aroudn the array method without initilizers.
                 self.classes = champClassData
+                print("pulled classes", self.classes)
                 
             case let .failure(error):
                 print(error)
@@ -82,17 +84,24 @@ class TeamBuilder {
                 
                 // TODO: Get aroudn the array method without initilizers.
                 self.classes += champClassData
+                print("pulled origins", self.classes)
+                
             case let .failure(error):
                 print(error)
                 
             }
             DispatchQueue.main.async {
+                // TODO: Move this for after pulling origins and classes.
+                NotificationCenter.default.post(name: Notification.Name("loadedChamps"), object: nil) // after havaing pulled classes / origins / championss
+                
                 self.fillClassNeededArray()
             }
         }
     }
     
+    // Create all the data arrays.
     func fillClassNeededArray() {
+        print("filling classes array")
         for champClass in classes {
             var highest = 0
             
@@ -105,7 +114,7 @@ class TeamBuilder {
             print("\(champClass.name) bonuses:", champClass.bonuses)
             classesNeeded[champClass.name] = highest
         }
-//        print(classesNeeded)
+        print(classesNeeded)
     }
     
 //

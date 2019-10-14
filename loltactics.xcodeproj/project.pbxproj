@@ -27,6 +27,8 @@
 		289E2090233C371400B648EF /* TFTServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289E208F233C371400B648EF /* TFTServices.swift */; };
 		28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4A23D234D49C80048092E /* ItemViewModel.swift */; };
 		28E4A240234D9CB90048092E /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */; };
+		F3C211BE234E97F7002F0D9F /* ChampionClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C211BD234E97F7002F0D9F /* ChampionClass.swift */; };
+		F3C211C0234E9819002F0D9F /* TeamBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3C211BF234E9819002F0D9F /* TeamBuilder.swift */; };
 		F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50E8233D7CBF0087B3A1 /* Champion.swift */; };
 		F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */; };
 		F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */; };
@@ -76,6 +78,8 @@
 		289E208F233C371400B648EF /* TFTServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TFTServices.swift; sourceTree = "<group>"; };
 		28E4A23D234D49C80048092E /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTableViewCell.swift; sourceTree = "<group>"; };
+		F3C211BD234E97F7002F0D9F /* ChampionClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChampionClass.swift; sourceTree = "<group>"; };
+		F3C211BF234E9819002F0D9F /* TeamBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TeamBuilder.swift; sourceTree = "<group>"; };
 		F3FD50E8233D7CBF0087B3A1 /* Champion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Champion.swift; sourceTree = "<group>"; };
 		F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChampionTableViewCell.swift; sourceTree = "<group>"; };
@@ -168,7 +172,7 @@
 				28E4A23F234D9CB90048092E /* ItemTableViewCell.swift */,
 				28703228234C441200931AF2 /* ItemCollectionViewCell.swift */,
 				289D28DD233AB828006E2C37 /* TeamBuilderView.swift */,
-				F3F315CB234D8A1900101139 /* TeamBuilder.swift */,
+				F3C211BF234E9819002F0D9F /* TeamBuilder.swift */,
 				F3FD50EA233D83E20087B3A1 /* ChampionCollectionViewCell.swift */,
 				F3FD50EC233DEAB80087B3A1 /* ChampionTableViewCell.swift */,
 				289D28DF233AB84D006E2C37 /* DevAboutView.swift */,
@@ -187,8 +191,8 @@
 		289D28D8233AB145006E2C37 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F3C211BD234E97F7002F0D9F /* ChampionClass.swift */,
 				289D28E1233AC332006E2C37 /* Items.swift */,
-				F3F315CD234D948100101139 /* ChampionClass.swift */,
 				F3FD50E8233D7CBF0087B3A1 /* Champion.swift */,
 			);
 			path = Model;
@@ -346,7 +350,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				289E2090233C371400B648EF /* TFTServices.swift in Sources */,
-				F3F315CE234D948100101139 /* ChampionClass.swift in Sources */,
 				289E208D233C36AE00B648EF /* NetworkRequest.swift in Sources */,
 				F3FD50EB233D83E20087B3A1 /* ChampionCollectionViewCell.swift in Sources */,
 				2809513E231F133A001BD2DF /* ViewController.swift in Sources */,
@@ -354,18 +357,19 @@
 				F3FD50ED233DEAB80087B3A1 /* ChampionTableViewCell.swift in Sources */,
 				28E4A23E234D49C80048092E /* ItemViewModel.swift in Sources */,
 				289E2087233C358900B648EF /* NetworkResponse.swift in Sources */,
+				F3C211C0234E9819002F0D9F /* TeamBuilder.swift in Sources */,
 				289D28DC233AB59C006E2C37 /* ItemBuilderView.swift in Sources */,
 				28703229234C441200931AF2 /* ItemCollectionViewCell.swift in Sources */,
 				F3FD50E9233D7CBF0087B3A1 /* Champion.swift in Sources */,
 				289D28E0233AB84D006E2C37 /* DevAboutView.swift in Sources */,
 				289D28DE233AB828006E2C37 /* TeamBuilderView.swift in Sources */,
 				289D28E2233AC332006E2C37 /* Items.swift in Sources */,
-				F3F315CC234D8A1900101139 /* TeamBuilder.swift in Sources */,
 				289E2085233C356800B648EF /* NetworkError.swift in Sources */,
 				289D28DA233AB441006E2C37 /* MainTabBarView.swift in Sources */,
 				2809513C231F133A001BD2DF /* AppDelegate.swift in Sources */,
 				289E208B233C35EC00B648EF /* NetworkRoute.swift in Sources */,
 				289E2089233C35AE00B648EF /* Result.swift in Sources */,
+				F3C211BE234E97F7002F0D9F /* ChampionClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
