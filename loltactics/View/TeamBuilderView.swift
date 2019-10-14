@@ -254,7 +254,7 @@ class TeamBuilderView: UIViewController {
         view.addSubview(classesLabel)
         NSLayoutConstraint.activate([
             classesLabel.bottomAnchor.constraint(equalTo: champSelectBackground.topAnchor),
-            classesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            classesLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             classesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             classesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
