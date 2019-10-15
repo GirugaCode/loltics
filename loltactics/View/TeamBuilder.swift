@@ -152,7 +152,7 @@ class TeamBuilder {
         
 //        print(champsClass)
         
-        buildATeam(starters: [champs[0], champs[1], champs[2]])
+        buildATeam(starters: [champs[5], champs[7], champs[20]])
     }
     
     func buildATeam(starters: [ChampionData]) {
@@ -196,13 +196,78 @@ class TeamBuilder {
             // TODO: remove duplicate classes
             
             // TODO: Find the next fasts builds you can add.
+            let classKeyString = highest.0
+            var slotsTillBonus = classesNeeded[classKeyString]! - highest.1
             
-//            print(highest)
-            for i in 0...slots {
-                // using most popular class, find the next champ.
-                let nextOptions = champClassAssignement[highest.0.lowercased()]
-                print(nextOptions)
+            // using most popular class, find the next champ.
+            let nextOptions = champClassAssignement[highest.0.lowercased()]
+            
+            print("Remaining", classKeyString, ":", classesNeeded[classKeyString]! - highest.1)
+            
+            var count = 0
+            while count < slotsTillBonus {
+                var found = false
+                for teammate in team {
+                    if teammate.name == nextOptions![count].name {
+                        found = true
+                    }
+                }
+                if found == false {
+                    print("Next teammate: ", nextOptions![count])
+                    team.append(nextOptions![count])
+                    slots -= 1
+                    
+                } else {
+                    slotsTillBonus += 1
+
+                }
+                count += 1
             }
+            // TODO: Handle if 5 champs (teamClassNeeded doesn't have [5])
+            if slots == 5 {
+                slots += 1
+            }
+            let lastSlots = teamClassNeeded[slots]![0]
+            
+            
+            print(lastSlots)
+//            print(champClassAssignement["void"])
+            
+            let lastChampOptions = champClassAssignement[lastSlots.lowercased()]!
+            
+            var counter = 0
+            
+            while counter < slots {
+                var found = false
+                for teammate in team {
+                    if teammate.name == nextOptions![counter].name {
+                        found = true
+                    }
+                }
+                if found == false {
+                    print("Next teammate: ", nextOptions![counter])
+                    team.append(nextOptions![counter])
+                    slots -= 1
+                    
+                } else {
+                    slots += 1
+                    
+                }
+                counter += 1
+            }
+            print("Team:", team.count)
+            
+            for teammate in team {
+                print(teammate.name)
+            }
+            
+//            for _ in 0...slotsTillBonus {
+//
+//
+//                for champ in nextOptions! {
+//                    print(champ.name)
+//                }
+//            }
             
 //            print(teamClasses)
 //            print(teamClassNeeded)
